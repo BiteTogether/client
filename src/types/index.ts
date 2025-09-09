@@ -1,0 +1,48 @@
+// Re-export all types for easier imports
+export * from './user';
+export * from './place';
+export * from './chat';
+export * from './redux';
+
+// Navigation types
+export type RootStackParamList = {
+  Auth: undefined;
+  Main: undefined;
+};
+
+export type AuthStackParamList = {
+  Login: undefined;
+  Register: undefined;
+  ForgotPassword: undefined;
+};
+
+export type MainTabParamList = {
+  Feed: undefined;
+  Swiping: undefined;
+  Favorites: undefined;
+  Chat: undefined;
+  Profile: undefined;
+};
+
+export type ChatStackParamList = {
+  ChatList: undefined;
+  ChatDetail: { chatId: string };
+  SwipeBattle: { battleId: string };
+};
+
+// API Response types
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  message?: string;
+  errors?: string[];
+}
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  page: number;
+  limit: number;
+  total: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
