@@ -1,19 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import * as Yup from 'yup';
+import { Button } from 'react-native';
+
 import { COLORS, FONTS } from '../../utils/constants';
 import { useNavigation } from '@react-navigation/native';
 import { LoginForm } from '../../components/authentication/LoginForm';
-import * as Yup from 'yup';
-import { Button } from 'react-native';
+
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation();
   const initialValues = { email: '', password: '' };
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+  const validationSchema = Yup.object({
+    
   });
-  const onSubmit = (values: any) => { console.log(values); };
+  const onSubmit = (values: any) => { };
   
   return (
     <View style={styles.container}>

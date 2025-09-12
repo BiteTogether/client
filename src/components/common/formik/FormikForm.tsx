@@ -1,8 +1,7 @@
-import { FormikFormProps } from "../../../types/form";
-import { Formik, Form } from 'formik';
+import { Formik, FormikValues } from 'formik';
 
-import { FormikValues } from 'formik';
-import { View } from "react-native";
+import { FormikFormProps } from "../../../types/form";
+
 
 export const FormikForm = <T extends FormikValues>({
     initialValues,

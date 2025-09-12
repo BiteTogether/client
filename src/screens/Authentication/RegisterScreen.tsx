@@ -1,11 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import * as Yup from 'yup';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Button } from 'react-native';
+
 import { COLORS, FONTS } from '../../utils/constants';
 import { RegisterForm } from '../../components/authentication/RegisterForm';
 
+
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation();
+  const validationSchema = Yup.object({
+      
+    });
+  const onSubmit = (values: any) => { };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -19,8 +27,8 @@ const RegisterScreen: React.FC = () => {
       <View style={styles.content}>
         <RegisterForm
           initialValues={{ email: '', password: '', confirmPassword: '', username: '', fullName: '' }}
-          validationSchema={undefined}
-          onSubmit={(values) => { console.log(values); }}
+          validationSchema={validationSchema}
+          onSubmit={(values) => { onSubmit(values); }}
         >
           {(formikProps) => (
             <View>
