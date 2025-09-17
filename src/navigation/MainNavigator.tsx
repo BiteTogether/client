@@ -1,31 +1,49 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Feed from '../screens/Feed';
+import Favorites from '../screens/Favorites';
+import Swiping from '../screens/Swiping';
+import Chat from '../screens/Chat';
+import Profile from '../screens/Profile';
+import HeartIcon from '../../assets/icons/HeartIcon';
+import LocationIcon from '../../assets/icons/LocationIcon';
+import ChatIcon from '../../assets/icons/ChatIcon';
+import HomeIcon from '../../assets/icons/HomeIcon';
+import Avatar from 'components/common/Avatar';
+
+const Tab = createBottomTabNavigator();
 
 const MainNavigator: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Main App</Text>
-      <Text style={styles.subtitle}>Coming soon...</Text>
-    </View>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarIcon: ({ color, size }) => {
+          switch (route.name) {
+            case 'Feed':
+              return <HomeIcon color={color} size={size} />;
+            case 'Favorites':
+              return <HeartIcon color={color} size={size} />;
+            case 'Swiping':
+              return <LocationIcon color={color} size={size} />;
+            case 'Chat':
+              return <ChatIcon color={color} size={size} />;
+            case 'Profile':
+              return <Avatar size={size} />;
+            default:
+              return null;
+          }
+        },
+      })}
+    >
+      <Tab.Screen name="Feed" component={Feed} />
+      <Tab.Screen name="Favorites" component={Favorites} />
+      <Tab.Screen name="Swiping" component={Swiping} />
+      <Tab.Screen name="Chat" component={Chat} />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-  },
-});
 
 export default MainNavigator;

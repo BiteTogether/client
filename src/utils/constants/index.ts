@@ -94,6 +94,9 @@ export const COLORS = {
     PRIMARY: ['#FF6B35', '#F7931E'],
     SECONDARY: ['#F7931E', '#FFD23F'],
   },
+
+  ICON: '#262626',
+  HEADER_BG: '#FAFAFA',
 };
 
 // Typography
@@ -102,13 +105,19 @@ export const FONTS = {
   MEDIUM: 'System',
   BOLD: 'System',
   SIZES: {
-    SMALL: 12,
-    MEDIUM: 14,
-    LARGE: 16,
-    XLARGE: 18,
-    XXLARGE: 24,
-    TITLE: 28,
-    HEADER: 32,
+    SMALL: '12px',
+    MEDIUM: '14px',
+    LARGE: '16px',
+    XLARGE: '18px',
+    XXLARGE: '24px',
+    TITLE: '28px',
+    HEADER: '32px',
+  },
+  WEIGHTS: {
+    REGULAR: '400',
+    MEDIUM: '500',
+    SEMIBOLD: '600',
+    BOLD: '700',
   },
 };
 
