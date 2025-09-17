@@ -5,10 +5,10 @@ import Favorites from '../screens/Favorites';
 import Swiping from '../screens/Swiping';
 import Chat from '../screens/Chat';
 import Profile from '../screens/Profile';
-import HeartIcon from '../../assets/icons/HeartIcon';
-import LocationIcon from '../../assets/icons/LocationIcon';
-import ChatIcon from '../../assets/icons/ChatIcon';
-import HomeIcon from '../../assets/icons/HomeIcon';
+import HeartIcon from '@assets/icons/HeartIcon';
+import HamburgerIcon from '@assets/icons/HamburgerIcon';
+import ChatIcon from '@assets/icons/ChatIcon';
+import HomeIcon from '@assets/icons/HomeIcon';
 import Avatar from 'components/common/Avatar';
 
 const Tab = createBottomTabNavigator();
@@ -26,7 +26,7 @@ const MainNavigator: React.FC = () => {
             case 'Favorites':
               return <HeartIcon color={color} size={size} />;
             case 'Swiping':
-              return <LocationIcon color={color} size={size} />;
+              return <HamburgerIcon color={color} size={size} />;
             case 'Chat':
               return <ChatIcon color={color} size={size} />;
             case 'Profile':
