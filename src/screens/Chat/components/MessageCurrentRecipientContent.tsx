@@ -1,17 +1,16 @@
 import { View, Text, StyleSheet } from "react-native"
 
-import { MessageItemProps } from "../../types"
-import { COLORS } from "../../utils/constants"
+import { MessageCurrentRecipientProps } from "../../../types"
+import { COLORS } from "../../../utils/constants"
 
-export const MessageItemContent = ({
-    fullName,
-    latestMessage,
-    receivedTime
-}: MessageItemProps) => {
+export const MessageCurrentRecipientContent = ({
+    username,
+    fullName
+}: MessageCurrentRecipientProps) => {
     return (
         <View style={styles.container}>
+            <Text style={styles.username}>{username}</Text>
             <Text style={styles.fullName}>{fullName}</Text>
-            <Text style={styles.message}>{latestMessage} • {receivedTime}</Text>
         </View>
     )
 }
@@ -19,12 +18,11 @@ export const MessageItemContent = ({
 const styles = StyleSheet.create({
     container: {
         flexDirection: "column",
-        
     },
-    fullName: {
+    username: {
         fontWeight: "bold",
     },
-    message: {
+    fullName: {
         color: COLORS.TEXT.LIGHT,
-    },
+    }
 })

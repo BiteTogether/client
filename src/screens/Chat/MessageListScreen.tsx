@@ -1,11 +1,13 @@
-import { View, StyleSheet, Text, ScrollView } from "react-native"
+import { View, StyleSheet, Text, ScrollView, TouchableOpacity } from "react-native"
 import { SearchBar } from "@rneui/themed"
 
 import { COLORS, FONTS, MESSAGE_ITEMS } from "../../utils/constants"
-import { MessageItem } from "../../components/chat/MessageItem"
-import { MessageItemContent } from "../../components/chat/MessageItemContent"
+import { MessageItem } from "./components/MessageItem"
+import { MessageItemContent } from "./components/MessageItemContent"
+import { useNavigation } from '@react-navigation/native';
 
-export const MessageListScreen = () => {
+const MessageListScreen = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -25,6 +27,7 @@ export const MessageListScreen = () => {
                 showsVerticalScrollIndicator={false}
                 style={styles.messageList} >
                 {MESSAGE_ITEMS.map((item, index) => (
+                    <TouchableOpacity key={index} onPress={() => navigation.navigate('ChatDetail')}>
                     <MessageItem
                         key={index}
                         itemStyle={styles.item}
@@ -35,12 +38,11 @@ export const MessageListScreen = () => {
                             fullName={item.textContent.fullName} 
                             latestMessage={item.textContent.latestMessage} 
                             receivedTime={item.textContent.receivedTime} />} />
+                    </TouchableOpacity>
                 ))}
             </ScrollView>
 
-            <View style={styles.footer}>
-                {/* Put navigation bar here */}
-            </View>
+            
         </View>
     )
 }
@@ -107,3 +109,5 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.BACKGROUND,
     },
 })
+
+export default MessageListScreen;

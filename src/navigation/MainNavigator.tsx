@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Feed from '../screens/Feed';
 import Favorites from '../screens/Favorites';
 import Swiping from '../screens/Swiping';
-import Chat from '../screens/Chat';
+import ChatNavigator from './ChatNavigator';
 import Profile from '../screens/Profile';
 import HeartIcon from '@assets/icons/HeartIcon';
 import HamburgerIcon from '@assets/icons/HamburgerIcon';
@@ -37,11 +37,11 @@ const MainNavigator: React.FC = () => {
         },
       })}
     >
-      <Tab.Screen name="Feed" component={Feed} />
-      <Tab.Screen name="Favorites" component={Favorites} />
-      <Tab.Screen name="Swiping" component={Swiping} />
-      <Tab.Screen name="Chat" component={Chat} />
-      <Tab.Screen name="Profile" component={Profile} />
+  <Tab.Screen name="Feed" component={Feed} />
+  <Tab.Screen name="Favorites" component={Favorites} />
+  <Tab.Screen name="Swiping" component={Swiping} />
+  <Tab.Screen name="Chat" component={ChatNavigator} />
+  <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 };

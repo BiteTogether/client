@@ -1,21 +1,25 @@
-import { View, StyleSheet, Text } from "react-native"
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
 import { FAB, Icon, Input } from "@rneui/themed"
 
 import { COLORS, CURRENT_RECIPIENT } from "../../utils/constants"
-import { MessageCurrentRecipientContent } from "../../components/chat/MessageCurrentRecipientContent"
-import { MessageItem } from "../../components/chat/MessageItem"
-import { ReceivedMessageTextItem } from "../../components/chat/ReceivedMessageTextItem"
+import { MessageCurrentRecipientContent } from "./components/MessageCurrentRecipientContent"
+import { MessageItem } from "./components/MessageItem"
+import { ReceivedMessageTextItem } from "./components/ReceivedMessageTextItem"
+import { useNavigation } from '@react-navigation/native';
 
 
-export const MessageScreen = () => {
+const MessageScreen = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Icon 
-                name="arrow-left" 
-                type="feather"
-                size={24} 
-                color="black" />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Icon 
+                        name="arrow-left" 
+                        type="feather"
+                        size={24} 
+                        color="black" />
+                </TouchableOpacity>
 
                 <MessageItem
                     itemStyle={styles.item}
@@ -158,3 +162,5 @@ const styles = StyleSheet.create({
         margin: 0,
     },
 })
+
+export default MessageScreen;

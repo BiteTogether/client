@@ -11,7 +11,7 @@ import { ActivityIndicator } from 'react-native';
 import { COLORS, FONTS } from 'utils/constants';
 
 const PostContainer = styled.View`
-  padding: 16;
+  padding: 16px;
 `;
 
 const PostHeader = styled.View`
@@ -22,18 +22,18 @@ const PostHeader = styled.View`
 const UserInfo = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 8;
+  margin-bottom: 8px;
 `;
 
 const UserDetails = styled.View`
   flex-direction: column;
-  margin-left: 8;
-  gap: 8;
+  margin-left: 8px;
+  gap: 8px;
 `;
 
 const UserMeta = styled.View`
   flex-direction: row;
-  gap: 8;
+  gap: 8px;
 `;
 
 const UserName = styled.Text`
@@ -49,21 +49,21 @@ const PostDescription = styled.Text``;
 
 const PostLocation = styled.View`
   flex-direction: row;
-  gap: 4;
+  gap: 4px;
 `;
 
 const PostImageSection = styled.View`
   flex-direction: column;
-  padding-left: 60;
-  padding-right: 40;
+  padding-left: 60px;
+  padding-right: 40px;
 `;
 
 const ActionBar = styled.View`
-  margin-top: 16;
+  margin-top: 16px;
   flex-direction: row;
   width: 100%;
   justify-content: flex-start;
-  gap: 30;
+  gap: 30px;
 `;
 
 const PostItem = () => {
