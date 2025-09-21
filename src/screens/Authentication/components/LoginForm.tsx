@@ -1,14 +1,14 @@
-import { FormikForm } from "../common/formik/FormikForm"
-import { RegisterRequest } from "../../types"
-import { FormikFormProps } from "../../types/form"
+import { FormikForm } from "../../../components/common/formik/FormikForm"
+import { LoginRequest } from "../../../types"
+import { FormikFormProps } from "../../../types/form"
 
 
-export const RegisterForm = ({
+export const LoginForm = ({
     initialValues,
     validationSchema,
     onSubmit,
     children,
-} : FormikFormProps<RegisterRequest>) => {
+} : FormikFormProps<LoginRequest>) => {
     return (
         <FormikForm
             initialValues={initialValues}

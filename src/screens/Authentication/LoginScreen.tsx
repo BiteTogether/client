@@ -5,7 +5,7 @@ import { Button } from 'react-native';
 
 import { COLORS, FONTS } from '../../utils/constants';
 import { useNavigation } from '@react-navigation/native';
-import { LoginForm } from '../../components/authentication/LoginForm';
+import { LoginForm } from './components/LoginForm';
 
 
 const LoginScreen: React.FC = () => {

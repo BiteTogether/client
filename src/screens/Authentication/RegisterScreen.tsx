@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Button } from 'react-native';
 
 import { COLORS, FONTS } from '../../utils/constants';
-import { RegisterForm } from '../../components/authentication/RegisterForm';
+import { RegisterForm } from './components/RegisterForm';
 
 
 const RegisterScreen: React.FC = () => {
