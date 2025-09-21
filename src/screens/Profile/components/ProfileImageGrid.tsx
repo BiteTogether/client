@@ -55,9 +55,9 @@ const ProfileImageGrid = () => {
 };
 
 
-const ImageWrapper = styled.View`
-  width: ${IMAGE_SIZE}px;
-  height: ${IMAGE_SIZE}px;
-`;
+const ImageWrapper = styled.View(() => ({
+  width: IMAGE_SIZE,
+  height: IMAGE_SIZE,
+}));
 
 export default ProfileImageGrid;

@@ -7,19 +7,19 @@ import { COLORS, FONTS } from 'utils/constants';
 import ProfileImageGrid from './components/ProfileImageGrid';
 
 const UserContainer = styled.View`
-  padding: 16px;
+  padding: 16;
 `;
 
 const UserInfo = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 8;
 `;
 
 const UserDetails = styled.View`
   flex-direction: column;
-  margin-left: 8px;
-  gap: 8px;
+  margin-left: 8;
+  gap: 8;
 `;
 
 const UserName = styled.Text`
@@ -29,12 +29,12 @@ const UserName = styled.Text`
 `;
 
 const UserBio = styled.Text`
-  margin-top: 8px;
+  margin-top: 8;
 `;
 
 const UserMeta = styled.View`
   flex-direction: row;
-  gap: 40px;
+  gap: 40;
 `;
 
 const MetaItem = styled.View``;

@@ -15,16 +15,16 @@ export type HeaderProps = {
 
 const Container = styled.View`
   width: 100%;
-  height: 84px;
+  height: 84;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 16;
   background-color: ${COLORS.HEADER_BG};
 `;
 
 const Left = styled.View`
-  margin-top: 40px;
+  margin-top: 40;
   flex-direction: row;
   align-items: center;
 `;
@@ -33,14 +33,14 @@ const Center = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 40;
 `;
 
 const Right = styled.View`
-  margin-top: 40px;
+  margin-top: 40;
   flex-direction: row;
   align-items: center;
-  gap: 22px;
+  gap: 22;
 `;
 
 const Header: React.FC<HeaderProps> = ({
