@@ -75,7 +75,7 @@ export const WEBSOCKET_EVENTS = {
 export const COLORS = {
   PRIMARY: '#FF6B35', // Orange
   SECONDARY: '#F7931E', // Yellow-Orange
-  ACCENT: '#FFD23F', // Yellow
+  ACCENT: '#FFC526', // Yellow
   BACKGROUND: '#FFFFFF',
   SURFACE: '#F8F9FA',
   ERROR: '#FF3B30',
