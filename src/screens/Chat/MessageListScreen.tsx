@@ -5,9 +5,11 @@ import { COLORS, FONTS, MESSAGE_ITEMS } from "../../utils/constants"
 import { MessageItem } from "./components/MessageItem"
 import { MessageItemContent } from "./components/MessageItemContent"
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const MessageListScreen = () => {
     const navigation = useNavigation();
+    const { t } = useTranslation();
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -17,32 +19,30 @@ const MessageListScreen = () => {
                     leftIconContainerStyle={styles.leftIconContainerStyle}
                     inputStyle={styles.inputStyle}
                     placeholderTextColor={COLORS.TEXT.PRIMARY}
-                    placeholder="Search"
-                     />
+                    placeholder={t('search')}
+                />
             </View>
 
-            <Text style={styles.title}>Messages</Text>
+            <Text style={styles.title}>{t('messages')}</Text>
 
             <ScrollView 
                 showsVerticalScrollIndicator={false}
                 style={styles.messageList} >
                 {MESSAGE_ITEMS.map((item, index) => (
                     <TouchableOpacity key={index} onPress={() => navigation.navigate('ChatDetail')}>
-                    <MessageItem
-                        key={index}
-                        itemStyle={styles.item}
-                        imageContent={item.imageUri}
-                        imageContentStyle={styles.avatar}
-                        textContent={
-                        <MessageItemContent 
-                            fullName={item.textContent.fullName} 
-                            latestMessage={item.textContent.latestMessage} 
-                            receivedTime={item.textContent.receivedTime} />} />
+                        <MessageItem
+                            key={index}
+                            itemStyle={styles.item}
+                            imageContent={item.imageUri}
+                            imageContentStyle={styles.avatar}
+                            textContent={
+                                <MessageItemContent 
+                                    fullName={item.textContent.fullName} 
+                                    latestMessage={item.textContent.latestMessage} 
+                                    receivedTime={item.textContent.receivedTime} />} />
                     </TouchableOpacity>
                 ))}
             </ScrollView>
-
-            
         </View>
     )
 }

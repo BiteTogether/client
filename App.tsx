@@ -1,4 +1,5 @@
 import React from 'react';
+import './src/utils/i18n';
 import { StatusBar } from 'expo-status-bar';
 import { Provider } from 'react-redux';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
