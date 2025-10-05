@@ -59,3 +59,14 @@ export interface Notification {
   read: boolean;
   createdAt: string;
 }
+
+export interface MessageItemProps {
+    fullName: string;
+    latestMessage: string;
+    receivedTime: string;
+}
+
+export interface MessageCurrentRecipientProps {
+  username: string;
+  fullName: string;
+}

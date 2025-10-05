@@ -75,7 +75,7 @@ export const WEBSOCKET_EVENTS = {
 export const COLORS = {
   PRIMARY: '#FF6B35', // Orange
   SECONDARY: '#F7931E', // Yellow-Orange
-  ACCENT: '#FFD23F', // Yellow
+  ACCENT: '#FFC526', // Yellow
   BACKGROUND: '#FFFFFF',
   SURFACE: '#F8F9FA',
   ERROR: '#FF3B30',
@@ -94,6 +94,9 @@ export const COLORS = {
     PRIMARY: ['#FF6B35', '#F7931E'],
     SECONDARY: ['#F7931E', '#FFD23F'],
   },
+
+  ICON: '#262626',
+  HEADER_BG: '#FAFAFA',
 };
 
 // Typography
@@ -109,6 +112,12 @@ export const FONTS = {
     XXLARGE: 24,
     TITLE: 28,
     HEADER: 32,
+  },
+  WEIGHTS: {
+    REGULAR: '400',
+    MEDIUM: '500',
+    SEMIBOLD: '600',
+    BOLD: '700',
   },
 };
 
@@ -189,3 +198,39 @@ export const FEATURES = {
   GROUP_SWIPES: false,
   PREMIUM_FEATURES: false,
 };
+
+// Chat item constants
+export const MESSAGE_ITEMS = [
+  {
+    imageUri : "https://randomuser.me/api/portraits/men/36.jpg",
+    textContent : {
+      fullName : "John Doe",
+      latestMessage : "What are you doing?",
+      receivedTime : "10:30 AM",
+    }
+  },
+  {
+    imageUri : "https://randomuser.me/api/portraits/men/36.jpg",
+    textContent : {
+      fullName : "John Doe",
+      latestMessage : "Hello",
+      receivedTime : "10:30 AM",
+    }
+  },
+  {
+    imageUri : "https://randomuser.me/api/portraits/men/36.jpg",
+    textContent : {
+      fullName : "John Doe",
+      latestMessage : "Hello",
+      receivedTime : "10:30 AM",
+    }
+  }
+]
+
+export const CURRENT_RECIPIENT = {
+  imageUri : "https://randomuser.me/api/portraits/men/36.jpg",
+  textContent : {
+    username: "fng_th",
+    fullName: "Phuong Thao"
+  }
+}

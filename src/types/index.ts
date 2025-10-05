@@ -1,3 +1,6 @@
+import { AvatarProps } from '@rneui/themed';
+import React from 'react'
+import { StyleProp, ViewStyle } from 'react-native';
 // Re-export all types for easier imports
 export * from './user';
 export * from './place';
@@ -14,6 +17,7 @@ export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
   ForgotPassword: undefined;
+  ChatDetail: { chatId: string };
 };
 
 export type MainTabParamList = {
@@ -45,4 +49,11 @@ export interface PaginatedResponse<T> {
   total: number;
   hasNext: boolean;
   hasPrev: boolean;
+}
+
+export interface IBaseItem {
+  imageContent?: string;
+  textContent?: React.ReactNode;
+  itemStyle?: StyleProp<ViewStyle>;
+  imageContentStyle?: StyleProp<ViewStyle> & StyleProp<AvatarProps>;
 }
