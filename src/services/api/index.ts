@@ -22,7 +22,7 @@ class ApiService {
     // Request interceptor to add auth token
     this.instance.interceptors.request.use(
       async (config) => {
-        const token = await AsyncStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+        const token = await AsyncStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -50,7 +50,7 @@ class ApiService {
               });
               
               const { token } = response.data;
-              await AsyncStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, token);
+              await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, token);
               
               // Retry the original request with new token
               originalRequest.headers.Authorization = `Bearer ${token}`;
@@ -71,7 +71,7 @@ class ApiService {
 
   private async clearTokens(): Promise<void> {
     await AsyncStorage.multiRemove([
-      STORAGE_KEYS.AUTH_TOKEN,
+      STORAGE_KEYS.ACCESS_TOKEN,
       STORAGE_KEYS.REFRESH_TOKEN,
       STORAGE_KEYS.USER_PROFILE,
     ]);
@@ -126,20 +126,19 @@ class ApiService {
     if (error.response) {
       // Server responded with error status
       return {
-        success: false,
+        status: error.response.status || 500,
         message: error.response.data?.message || 'Server error occurred',
-        errors: error.response.data?.errors || [],
       };
     } else if (error.request) {
       // Network error
       return {
-        success: false,
+        status: 0,
         message: 'Network error. Please check your connection.',
       };
     } else {
       // Other error
       return {
-        success: false,
+        status: 0,
         message: error.message || 'An unexpected error occurred',
       };
     }

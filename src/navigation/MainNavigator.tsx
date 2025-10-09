@@ -1,10 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Feed from '../screens/Feed';
-import Favorites from '../screens/Favorites';
-import Swiping from '../screens/Swiping';
+import Feed from '../screens/Feed/FeedScreen';
+import Favorites from '../screens/Favorites/FavoritesScreen';
+import Swiping from '../screens/Swiping/SwipingScreen';
 import ChatNavigator from './ChatNavigator';
-import Profile from '../screens/Profile';
+import Profile from '../screens/Profile/ProfileScreen';
 import HeartIcon from '@assets/icons/HeartIcon';
 import HamburgerIcon from '@assets/icons/HamburgerIcon';
 import ChatIcon from '@assets/icons/ChatIcon';

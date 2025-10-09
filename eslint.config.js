@@ -18,6 +18,9 @@ export default [
         ecmaVersion: 2022,
         sourceType: 'module',
       },
+      globals: {
+        console: 'readonly',
+      },
     },
     plugins: {
       '@typescript-eslint': typescript,
