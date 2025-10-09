@@ -1,0 +1,10 @@
+// Validation Constants
+export const VALIDATION = {
+  EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  PASSWORD_MIN_LENGTH: 8,
+  USERNAME_MIN_LENGTH: 3,
+  USERNAME_MAX_LENGTH: 20,
+  BIO_MAX_LENGTH: 500,
+  POST_CONTENT_MAX_LENGTH: 1000,
+  MESSAGE_MAX_LENGTH: 1000,
+};

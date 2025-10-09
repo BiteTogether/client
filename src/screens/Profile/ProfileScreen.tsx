@@ -1,10 +1,15 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from 'utils/i18n';
 import Container from 'components/layout/Container';
 import Header from 'components/common/Header';
 import Avatar from 'components/common/Avatar';
 import styled from 'styled-components/native';
-import { COLORS, FONTS } from 'utils/constants';
+import { COLORS, FONTS } from 'utils/constants/ui';
 import ProfileImageGrid from './components/ProfileImageGrid';
+import { TouchableOpacity, Text } from 'react-native';
+import { useAppDispatch } from 'hooks/redux';
+import { logoutUser } from 'store/slices/authSlice';
 
 const UserContainer = styled.View`
   padding: 16px;
@@ -25,7 +30,7 @@ const UserDetails = styled.View`
 const UserName = styled.Text`
   color: ${COLORS.TEXT.PRIMARY};
   font-weight: ${FONTS.WEIGHTS.SEMIBOLD};
-  font-size: ${FONTS.SIZES.XLARGE};
+  font-size: ${FONTS.SIZES.XLARGE}px;
 `;
 
 const UserBio = styled.Text`
@@ -51,6 +56,16 @@ const MetaLabel = styled.Text`
 const GridMedia = styled.View``;
 
 const Profile: React.FC = () => {
+  const { i18n: i18nextInstance } = useTranslation();
+  const dispatch = useAppDispatch();
+  const handleChangeLang = () => {
+    const nextLang = i18nextInstance.language === 'en' ? 'vi' : 'en';
+    i18nextInstance.changeLanguage(nextLang);
+  };
+  const { t } = useTranslation();
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
   return (
     <Container>
       <Header />
@@ -62,15 +77,15 @@ const Profile: React.FC = () => {
             <UserMeta>
               <MetaItem>
                 <MetaNumber>108</MetaNumber>
-                <MetaLabel>posts</MetaLabel>
+                <MetaLabel>{t('posts')}</MetaLabel>
               </MetaItem>
               <MetaItem>
                 <MetaNumber>10.5K</MetaNumber>
-                <MetaLabel>likes</MetaLabel>
+                <MetaLabel>{t('likes')}</MetaLabel>
               </MetaItem>
               <MetaItem>
                 <MetaNumber>20</MetaNumber>
-                <MetaLabel>liked brands</MetaLabel>
+                <MetaLabel>{t('liked_brands')}</MetaLabel>
               </MetaItem>
             </UserMeta>
           </UserDetails>
@@ -85,6 +100,13 @@ const Profile: React.FC = () => {
       <GridMedia>
         <ProfileImageGrid />
       </GridMedia>
+
+      <TouchableOpacity onPress={handleChangeLang}>
+        <Text>Lang</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleLogout} style={{marginTop: 16, backgroundColor: '#FF6B35', padding: 12, borderRadius: 8, alignItems: 'center'}}>
+        <Text style={{color: '#fff', fontWeight: 'bold'}}>{t('logout')}</Text>
+      </TouchableOpacity>
     </Container>
   );
 };

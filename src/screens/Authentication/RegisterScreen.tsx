@@ -35,7 +35,10 @@ const RegisterScreen: React.FC = () => {
               <TextInput
                 style={styles.input}
                 placeholder='Full Name'
-                {...formikProps.getFieldProps('fullName')} />
+                value={formikProps.values.fullName}
+                onChangeText={formikProps.handleChange('fullName')}
+                onBlur={formikProps.handleBlur('fullName')}
+              />
               {formikProps.touched.fullName && formikProps.errors.fullName ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.fullName}</Text>
               ) : null}
@@ -43,7 +46,10 @@ const RegisterScreen: React.FC = () => {
               <TextInput
                 style={styles.input}
                 placeholder='Username'
-                {...formikProps.getFieldProps('username')} />
+                value={formikProps.values.username}
+                onChangeText={formikProps.handleChange('username')}
+                onBlur={formikProps.handleBlur('username')}
+              />
               {formikProps.touched.username && formikProps.errors.username ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.username}</Text>
               ) : null}
@@ -52,7 +58,10 @@ const RegisterScreen: React.FC = () => {
                 style={styles.input}
                 placeholder='Email'
                 keyboardType='email-address'
-                {...formikProps.getFieldProps('email')} />
+                value={formikProps.values.email}
+                onChangeText={formikProps.handleChange('email')}
+                onBlur={formikProps.handleBlur('email')}
+              />
               {formikProps.touched.email && formikProps.errors.email ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.email}</Text>
               ) : null}
@@ -61,16 +70,22 @@ const RegisterScreen: React.FC = () => {
                 style={styles.input}
                 placeholder='Password'
                 secureTextEntry
-                {...formikProps.getFieldProps('password')} />
+                value={formikProps.values.password}
+                onChangeText={formikProps.handleChange('password')}
+                onBlur={formikProps.handleBlur('password')}
+              />
               {formikProps.touched.password && formikProps.errors.password ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.password}</Text>
               ) : null}
-              
+
               <TextInput
                 style={styles.input}
                 placeholder='Confirm Password'
                 secureTextEntry
-                {...formikProps.getFieldProps('confirmPassword')} />
+                value={formikProps.values.confirmPassword}
+                onChangeText={formikProps.handleChange('confirmPassword')}
+                onBlur={formikProps.handleBlur('confirmPassword')}
+              />
               {formikProps.touched.confirmPassword && formikProps.errors.confirmPassword ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.confirmPassword}</Text>
               ) : null}

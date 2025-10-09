@@ -1,26 +1,56 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import appLogo from '@assets/app_logo.png';
 import * as Yup from 'yup';
-import { Button } from 'react-native';
 
 import { COLORS, FONTS } from '../../utils/constants';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { loginUser, clearError } from '../../store/slices/authSlice';
+import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { LoginForm } from './components/LoginForm';
-
+import Toast from 'react-native-toast-message';
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const { loading, error } = useAppSelector((state) => state.auth);
+  
   const initialValues = { email: '', password: '' };
+  const { t } = useTranslation();
   const validationSchema = Yup.object({
-    
+    email: Yup.string().email(t('email_invalid')).required(t('email_required')),
+    password: Yup.string().required(t('password_required')),
   });
-  const onSubmit = (values: any) => { };
+
+  const onSubmit = async (values: any) => {
+    try {
+      const res = await dispatch(loginUser(values));
+      if (loginUser.fulfilled.match(res)) {
+        // Login successful
+        Toast.show({
+          type: 'success',
+          text1: res.payload.message,
+        });
+      } else {
+        // Login failed
+        console.error('Login failed:', res.payload);
+      }
+    } catch (e: any) {
+      console.error('Login error:', e);
+    }
+  };
+
+  useEffect(() => {
+    // Reset error when entering login screen
+    dispatch(clearError());
+  }, [dispatch]);
   
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image 
-          source={require('../../../assets/app_logo.png')} 
+          source={appLogo}
           style={styles.appLogo}
         />
         <Text style={styles.appName}>BiteTogether</Text>
@@ -38,7 +68,10 @@ const LoginScreen: React.FC = () => {
                 style={styles.input}
                 placeholder='Email'
                 keyboardType='email-address'
-                {...formikProps.getFieldProps("email")} />
+                value={formikProps.values.email}
+                onChangeText={formikProps.handleChange('email')}
+                onBlur={formikProps.handleBlur('email')}
+              />
               {formikProps.touched.email && formikProps.errors.email ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.email}</Text>
               ) : null}
@@ -47,25 +80,38 @@ const LoginScreen: React.FC = () => {
                 style={styles.input}
                 placeholder='Password'
                 secureTextEntry
-                {...formikProps.getFieldProps("password")} />
+                value={formikProps.values.password}
+                onChangeText={formikProps.handleChange('password')}
+                onBlur={formikProps.handleBlur('password')}
+              />
               {formikProps.touched.password && formikProps.errors.password ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.password}</Text>
               ) : null}
 
               <TouchableOpacity>
-                <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                <Text style={styles.forgotPassword}>{t('forgot_password')}</Text>
               </TouchableOpacity>
 
-              <Button title='Login' color={COLORS.ACCENT}/>
+              {(error) && (
+                <Text style={{ color: 'red', marginVertical: 8 }}>{error}</Text>
+              )}
+              
+              <TouchableOpacity
+                style={[styles.button, loading && { opacity: 0.5 }]}
+                onPress={() => formikProps.handleSubmit()}
+                disabled={loading}
+              >
+                <Text style={styles.button_title}>{t('login')}</Text>
+              </TouchableOpacity>
             </View>
           )}
         </LoginForm>
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Don't have an account?</Text>
+        <Text style={styles.footerText}>{t('dont_have_an_account')}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register' as never)}>
-          <Text style={styles.registerNavigation}>Sign Up.</Text>
+          <Text style={styles.registerNavigation}>{t('sign_up')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -140,6 +186,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'right',
     marginVertical: 10,
+  },
+  button: {
+    backgroundColor: COLORS.ACCENT,
+    padding: 12,
+    borderRadius: 5,
+  },
+  button_title: {
+    fontSize: FONTS.SIZES.MEDIUM,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

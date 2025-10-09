@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { COLORS } from 'utils/constants';
+import { COLORS } from 'utils/constants/ui';
 import { TouchableOpacity, Text } from 'react-native';
 
 export type HeaderProps = {

@@ -8,7 +8,7 @@ import CommentIcon from '@assets/icons/CommentIcon';
 import ShareIcon from '@assets/icons/ShareIcon';
 import { Image as ImageRNE } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native';
-import { COLORS, FONTS } from 'utils/constants';
+import { COLORS, FONTS } from 'utils/constants/ui';
 
 const PostContainer = styled.View`
   padding: 16px;

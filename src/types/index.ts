@@ -36,10 +36,12 @@ export type ChatStackParamList = {
 
 // API Response types
 export interface ApiResponse<T> {
-  success: boolean;
+  status: number;
+  message: string;
   data?: T;
-  message?: string;
-  errors?: string[];
+  currentPage?: number;
+  totalPages?: number;
+  totalElements?: number;
 }
 
 export interface PaginatedResponse<T> {

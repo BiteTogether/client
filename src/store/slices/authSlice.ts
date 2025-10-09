@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { apiService } from '../../services/api';
-import { AuthState, User, LoginRequest, RegisterRequest, AuthResponse } from '../../types';
-import { API_ENDPOINTS, STORAGE_KEYS } from '../../utils/constants';
+import { login, register, logout } from '../../services/api/authApi';
+import { AuthState } from '../../types';
+import { STORAGE_KEYS } from '../../utils/constants';
 
 // Initial state
 const initialState: AuthState = {
@@ -16,35 +16,33 @@ const initialState: AuthState = {
 // Async thunks
 export const loginUser = createAsyncThunk(
   'auth/login',
-  async (credentials: LoginRequest, { rejectWithValue }) => {
+  async (credentials: any, { rejectWithValue }) => {
     try {
-      const response = await apiService.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, credentials);
+      const response = await login(credentials);
       
-      if (response.success && response.data) {
+      if (response.data && response.data.access_token && response.data.refresh_token) {
         // Store tokens in AsyncStorage
-        await AsyncStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, response.data.token);
-        await AsyncStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, response.data.refreshToken);
-        await AsyncStorage.setItem(STORAGE_KEYS.USER_PROFILE, JSON.stringify(response.data.user));
-        
-        return response.data;
-      } else {
-        return rejectWithValue(response.message || 'Login failed');
+        await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.data.access_token);
+        await AsyncStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, response.data.refresh_token);
+        return { ...response.data, message: response.message };
       }
+      
+      return rejectWithValue(response.message);
     } catch (error: any) {
-      return rejectWithValue(error.message || 'Login failed');
+      return rejectWithValue(error.message);
     }
   }
 );
 
 export const registerUser = createAsyncThunk(
   'auth/register',
-  async (userData: RegisterRequest, { rejectWithValue }) => {
+  async (userData: any, { rejectWithValue }) => {
     try {
-      const response = await apiService.post<AuthResponse>(API_ENDPOINTS.AUTH.REGISTER, userData);
+      const response = await register(userData);
       
-      if (response.success && response.data) {
+      if (response.data) {
         // Store tokens in AsyncStorage
-        await AsyncStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, response.data.token);
+        await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.data.token);
         await AsyncStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, response.data.refreshToken);
         await AsyncStorage.setItem(STORAGE_KEYS.USER_PROFILE, JSON.stringify(response.data.user));
         
@@ -62,11 +60,11 @@ export const logoutUser = createAsyncThunk(
   'auth/logout',
   async (_, { rejectWithValue }) => {
     try {
-      await apiService.post(API_ENDPOINTS.AUTH.LOGOUT);
+      await logout();
       
       // Clear AsyncStorage
       await AsyncStorage.multiRemove([
-        STORAGE_KEYS.AUTH_TOKEN,
+        STORAGE_KEYS.ACCESS_TOKEN,
         STORAGE_KEYS.REFRESH_TOKEN,
         STORAGE_KEYS.USER_PROFILE,
       ]);
@@ -75,7 +73,7 @@ export const logoutUser = createAsyncThunk(
     } catch (error: any) {
       // Even if logout API fails, clear local storage
       await AsyncStorage.multiRemove([
-        STORAGE_KEYS.AUTH_TOKEN,
+        STORAGE_KEYS.ACCESS_TOKEN,
         STORAGE_KEYS.REFRESH_TOKEN,
         STORAGE_KEYS.USER_PROFILE,
       ]);
@@ -89,7 +87,7 @@ export const checkAuthToken = createAsyncThunk(
   'auth/checkToken',
   async (_, { rejectWithValue }) => {
     try {
-      const token = await AsyncStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+      const token = await AsyncStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
       const refreshToken = await AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
       const userProfile = await AsyncStorage.getItem(STORAGE_KEYS.USER_PROFILE);
       
@@ -130,8 +128,8 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
-        state.token = action.payload.token;
-        state.refreshToken = action.payload.refreshToken;
+        state.token = action.payload.access_token;
+        state.refreshToken = action.payload.refresh_token;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
