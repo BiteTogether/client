@@ -16,6 +16,7 @@
   "password_required": "Vui lòng nhập mật khẩu",
   "full_name_required": "Vui lòng nhập họ và tên",
   "username_required": "Vui lòng nhập tên đăng nhập",
+  "phone_number_invalid": "Số điện thoại không hợp lệ",
   "phone_number_required": "Vui lòng nhập số điện thoại",
   "confirm_password_required": "Vui lòng xác nhận mật khẩu",
   "passwords_must_match": "Mật khẩu phải khớp",

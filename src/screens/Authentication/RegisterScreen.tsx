@@ -22,7 +22,9 @@ const RegisterScreen: React.FC = () => {
     fullName: Yup.string().required(t('full_name_required')),
     username: Yup.string().required(t('username_required')),
     email: Yup.string().email(t('email_invalid')).required(t('email_required')),
-    phoneNumber: Yup.string().required(t('phone_number_required')),
+    phoneNumber: Yup.string()
+      .matches(/^0\d{9}$/, t('phone_number_invalid'))
+      .required(t('phone_number_required')),
     password: Yup.string()
       .min(8, t('password_invalid', { min: 8 }))
       .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, t('password_invalid', { min: 8 }))

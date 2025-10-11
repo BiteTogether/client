@@ -16,6 +16,7 @@
   "password_required": "Please enter your password",
   "full_name_required": "Please enter your full name",
   "username_required": "Please enter your username",
+  "phone_number_invalid": "Invalid phone number",
   "phone_number_required": "Please enter your phone number",
   "confirm_password_required": "Please confirm your password",
   "passwords_must_match": "Passwords must match",
