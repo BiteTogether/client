@@ -3,11 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { checkAuthToken } from '../store/slices/authSlice';
-import { loadCachedProfile } from '../store/slices/userSlice';
+import { fetchUserProfile } from '../store/slices/userSlice';
 import { RootStackParamList } from '../types';
 
 import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
+import Settings from '../screens/Settings/SettingsScreen';
+import EditProfile from '../screens/Profile/EditProfileScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -21,12 +23,12 @@ const RootNavigator: React.FC = () => {
     if (token && !isAuthenticated) {
       dispatch(checkAuthToken()).then((result) => {
         if (result.meta.requestStatus === 'fulfilled') {
-          dispatch(loadCachedProfile());
+          dispatch(fetchUserProfile());
         }
       });
     } else if (isAuthenticated && token) {
-      // If already authenticated (from persist), load cached profile
-      dispatch(loadCachedProfile());
+      // If already authenticated (from persist), fetch profile from server
+      dispatch(fetchUserProfile());
     }
   }, [dispatch, isAuthenticated, token]);
 
@@ -34,7 +36,11 @@ const RootNavigator: React.FC = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthenticated ? (
-          <Stack.Screen name="Main" component={MainNavigator} />
+          <>
+            <Stack.Screen name="Main" component={MainNavigator} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
+          </>
         ) : (
           <Stack.Screen name="Auth" component={AuthNavigator} />
         )}

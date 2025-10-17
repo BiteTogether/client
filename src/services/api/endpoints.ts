@@ -8,8 +8,8 @@ export const API_ENDPOINTS = {
     RESET_PASSWORD: '/api/auth/reset-password',
   },
   USER: {
-    PROFILE: '/api/users/profile',
-    UPDATE_PROFILE: '/api/users/profile',
+    PROFILE: '/api/v1/users/me',
+    UPDATE_PROFILE: '/api/v1/users/{id}',
     PREFERENCES: '/api/users/preferences',
     LOCATION: '/api/users/location',
   },

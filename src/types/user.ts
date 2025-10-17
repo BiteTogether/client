@@ -53,6 +53,27 @@ export interface RegisterRequest {
   fullName: string;
 }
 
+export interface ProfileRequest {
+  username?: string;
+  email?: string;
+  fullName?: string;
+  phoneNumber?: string;
+  avatar?: string;
+  role?: string;
+}
+
+export interface ProfileResponse {
+  id: number;
+  username: string;
+  email: string;
+  fullName: string;
+  phoneNumber: string;
+  avatar?: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface AuthResponse {
   user: User;
   token: string;
