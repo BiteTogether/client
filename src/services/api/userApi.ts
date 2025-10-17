@@ -10,3 +10,8 @@ export const updateProfile = (id: number, data: ProfileRequest) => {
   const url = API_ENDPOINTS.USER.UPDATE_PROFILE.replace('{id}', id.toString());
   return apiService.put<ProfileResponse>(url, data);
 }
+
+export const deleteAccount = (id: number) => {
+  const url = API_ENDPOINTS.USER.DELETE_ACCOUNT.replace('{id}', id.toString());
+  return apiService.delete(url);
+}

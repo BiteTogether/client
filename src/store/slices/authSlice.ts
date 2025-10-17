@@ -60,25 +60,21 @@ export const logoutUser = createAsyncThunk(
   'auth/logout',
   async (_, { rejectWithValue }) => {
     try {
-      await logout();
+      const response = await logout();
       
-      // Clear AsyncStorage
-      await AsyncStorage.multiRemove([
-        STORAGE_KEYS.ACCESS_TOKEN,
-        STORAGE_KEYS.REFRESH_TOKEN,
-        STORAGE_KEYS.USER_PROFILE,
-      ]);
+      if (response.status === 200) {
+        // Clear AsyncStorage
+        await AsyncStorage.multiRemove([
+          STORAGE_KEYS.ACCESS_TOKEN,
+          STORAGE_KEYS.REFRESH_TOKEN,
+          STORAGE_KEYS.USER_PROFILE,
+        ]);
+        return { message: response.message };
+      }
       
-      return null;
+      return rejectWithValue(response.message);
     } catch (error: any) {
-      // Even if logout API fails, clear local storage
-      await AsyncStorage.multiRemove([
-        STORAGE_KEYS.ACCESS_TOKEN,
-        STORAGE_KEYS.REFRESH_TOKEN,
-        STORAGE_KEYS.USER_PROFILE,
-      ]);
-      
-      return null;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -165,6 +161,7 @@ const authSlice = createSlice({
     builder
       .addCase(logoutUser.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.loading = false;

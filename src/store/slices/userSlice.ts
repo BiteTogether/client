@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fetchProfile, updateProfile } from '../../services/api/userApi';
+import { fetchProfile, updateProfile, deleteAccount } from '../../services/api/userApi';
 import { UserState, ProfileResponse } from '../../types';
 import { STORAGE_KEYS } from '../../utils/constants';
 
@@ -49,6 +49,29 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
+
+export const deleteUserAccount = createAsyncThunk(
+  'user/deleteAccount',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await deleteAccount(id);
+      if (response.status === 200) {
+        // Remove profile from AsyncStorage
+        await AsyncStorage.multiRemove([
+          STORAGE_KEYS.USER_PROFILE,
+          STORAGE_KEYS.ACCESS_TOKEN,
+          STORAGE_KEYS.REFRESH_TOKEN,
+        ]);
+        return { message: response.message };
+      } else {
+        return rejectWithValue(response.message);
+      }
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 
 // export const updateUserLocation = createAsyncThunk(
 //   'user/updateLocation',
@@ -135,6 +158,22 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+
+    // Delete account
+    builder
+      .addCase(deleteUserAccount.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteUserAccount.fulfilled, (state) => {
+        state.loading = false;
+        state.profile = null;
+        state.error = null;
+      })
+      .addCase(deleteUserAccount.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
