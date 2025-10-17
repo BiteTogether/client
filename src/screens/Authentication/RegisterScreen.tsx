@@ -96,6 +96,7 @@ const RegisterScreen: React.FC = () => {
                 value={formikProps.values.username}
                 onChangeText={formikProps.handleChange('username')}
                 onBlur={formikProps.handleBlur('username')}
+                autoCapitalize="none"
               />
               {formikProps.touched.username && formikProps.errors.username ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.username}</Text>
@@ -108,6 +109,7 @@ const RegisterScreen: React.FC = () => {
                 value={formikProps.values.email}
                 onChangeText={formikProps.handleChange('email')}
                 onBlur={formikProps.handleBlur('email')}
+                autoCapitalize="none"
               />
               {formikProps.touched.email && formikProps.errors.email ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.email}</Text>
@@ -132,6 +134,7 @@ const RegisterScreen: React.FC = () => {
                 value={formikProps.values.password}
                 onChangeText={formikProps.handleChange('password')}
                 onBlur={formikProps.handleBlur('password')}
+                autoCapitalize="none"
               />
               {formikProps.touched.password && formikProps.errors.password ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.password}</Text>
@@ -144,13 +147,16 @@ const RegisterScreen: React.FC = () => {
                 value={formikProps.values.confirmPassword}
                 onChangeText={formikProps.handleChange('confirmPassword')}
                 onBlur={formikProps.handleBlur('confirmPassword')}
+                autoCapitalize="none"
               />
               {formikProps.touched.confirmPassword && formikProps.errors.confirmPassword ? (
                 <Text style={{ color: 'red' }}>{formikProps.errors.confirmPassword}</Text>
               ) : null}
 
               {(error) && (
-                <Text style={{ color: 'red', marginVertical: 8 }}>{error}</Text>
+                <Text style={{ color: 'red', marginVertical: 8 }}>
+                  {typeof error === 'string' ? error : JSON.stringify(error)}
+                </Text>
               )}
 
               <TouchableOpacity
@@ -208,10 +214,10 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: COLORS.BORDER,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 5,
     paddingHorizontal: 10,
     marginVertical: 5,
-    backgroundColor: COLORS.BORDER,
+    backgroundColor: COLORS.FORM_INPUT_BG,
     fontSize: FONTS.SIZES.MEDIUM,
     color: COLORS.TEXT.PRIMARY,
   },
