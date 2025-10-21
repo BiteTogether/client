@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Feed from '../screens/Feed/FeedScreen';
 import Favorites from '../screens/Favorites/FavoritesScreen';
 import Swiping from '../screens/Swiping/SwipingScreen';
 import ChatNavigator from './ChatNavigator';
@@ -10,6 +9,7 @@ import HamburgerIcon from '@assets/icons/HamburgerIcon';
 import ChatIcon from '@assets/icons/ChatIcon';
 import HomeIcon from '@assets/icons/HomeIcon';
 import Avatar from 'components/common/Avatar';
+import FeedNavigator from './FeedNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,7 @@ const MainNavigator: React.FC = () => {
         },
       })}
     >
-  <Tab.Screen name="Feed" component={Feed} />
+  <Tab.Screen name="Feed" component={FeedNavigator} />
   <Tab.Screen name="Favorites" component={Favorites} />
   <Tab.Screen name="Swiping" component={Swiping} />
   <Tab.Screen name="Chat" component={ChatNavigator} />

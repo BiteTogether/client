@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { COLORS } from 'utils/constants';
 
@@ -7,7 +8,7 @@ export type IconProps = {
   color?: string;
 };
 
-const NotiIcon: React.FC<IconProps> = ({ size = 25, color = COLORS.ICON }) => {
+const CreatePostIcon: React.FC<IconProps> = ({ size = 25, color = COLORS.ICON }) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 25 25" fill="none">
       <Path
@@ -35,4 +36,4 @@ const NotiIcon: React.FC<IconProps> = ({ size = 25, color = COLORS.ICON }) => {
   );
 };
 
-export default NotiIcon;
+export default CreatePostIcon;

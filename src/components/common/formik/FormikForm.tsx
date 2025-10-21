@@ -8,7 +8,7 @@ export const FormikForm = <T extends FormikValues>({
     validationSchema,
     onSubmit,
     children,
-}: FormikFormProps<T>) => {
+} : FormikFormProps<T>) => {
     return (
         <Formik
             initialValues={initialValues}

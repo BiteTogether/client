@@ -27,20 +27,6 @@ export interface Message {
   readBy: string[]; // User IDs who have read this message
 }
 
-// Feed related types
-export interface FeedPost {
-  id: string;
-  userId: string;
-  content: string;
-  images?: string[];
-  place?: Place;
-  likes: string[]; // User IDs who liked this post
-  comments: Comment[];
-  visibility: 'public' | 'friends' | 'private';
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface Comment {
   id: string;
   userId: string;

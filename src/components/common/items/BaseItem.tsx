@@ -5,7 +5,7 @@ import { Avatar } from "@rneui/themed"
 
 export const BaseItem = ({
     imageContent,
-    textContent,
+    textContent: mainContent,
     itemStyle,
     imageContentStyle
 } : IBaseItem) => {
@@ -16,7 +16,7 @@ export const BaseItem = ({
                     {...imageContentStyle}
                     source={{ uri : imageContent }} />
             ) : null}
-            { textContent }
+            { mainContent }
         </View>
     )
 }

@@ -1,3 +1,4 @@
+import { NavigatorScreenParams } from '@react-navigation/native';
 import { AvatarProps } from '@rneui/themed';
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native';
@@ -6,11 +7,13 @@ export * from './user';
 export * from './place';
 export * from './chat';
 export * from './redux';
+export * from './feed';
 
 // Navigation types
 export type RootStackParamList = {
   Auth: undefined;
-  Main: undefined;
+  // make Main accept the tab navigator params
+  Main: NavigatorScreenParams<MainTabParamList> | undefined;
 };
 
 export type AuthStackParamList = {
@@ -21,7 +24,8 @@ export type AuthStackParamList = {
 };
 
 export type MainTabParamList = {
-  Feed: undefined;
+  // make Feed accept the feed stack params
+  Feed: NavigatorScreenParams<FeedStackParamList> | undefined;
   Swiping: undefined;
   Favorites: undefined;
   Chat: undefined;
@@ -32,6 +36,11 @@ export type ChatStackParamList = {
   ChatList: undefined;
   ChatDetail: { chatId: string };
   SwipeBattle: { battleId: string };
+};
+
+export type FeedStackParamList = {
+  CreatePost: undefined;
+  Feed: undefined;
 };
 
 // API Response types

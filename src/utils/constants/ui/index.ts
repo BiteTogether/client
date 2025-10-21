@@ -8,3 +8,4 @@ export * from './pagination';
 export * from './map';
 export * from './swipe';
 export * from './messageItems';
+export * from './form';
