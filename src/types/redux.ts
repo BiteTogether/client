@@ -1,4 +1,4 @@
-import { User } from './user';
+import { ProfileResponse } from './user';
 import { Place, Match } from './place';
 import { Chat, Message, FeedPost } from './chat';
 
@@ -20,7 +20,7 @@ export interface AuthState {
 }
 
 export interface UserState {
-  profile: User | null;
+  profile: ProfileResponse | null;
   loading: boolean;
   error: string | null;
 }

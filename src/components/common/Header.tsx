@@ -5,6 +5,7 @@ import { TouchableOpacity, Text } from 'react-native';
 
 export type HeaderProps = {
   leftIcon?: React.ReactNode;
+  leftTitle?: string;
   rightIcons?: React.ReactNode[];
   onLeftPress?: () => void;
   onRightPress?: Array<() => void>;
@@ -27,6 +28,7 @@ const Left = styled.View`
   margin-top: 40px;
   flex-direction: row;
   align-items: center;
+  gap: 12px;
 `;
 
 const Center = styled.View`
@@ -43,8 +45,14 @@ const Right = styled.View`
   gap: 22px;
 `;
 
+const LeftTitle = styled.Text`
+  fontSize: 20px;
+  fontWeight: bold;
+`;
+
 const Header: React.FC<HeaderProps> = ({
   leftIcon,
+  leftTitle,
   rightIcons = [],
   onLeftPress,
   onRightPress = [],
@@ -57,6 +65,9 @@ const Header: React.FC<HeaderProps> = ({
       <Left>
         {leftIcon && (
           <TouchableOpacity onPress={onLeftPress}>{leftIcon}</TouchableOpacity>
+        )}
+        {leftTitle && (
+          <LeftTitle>{leftTitle}</LeftTitle>
         )}
       </Left>
       <Center>

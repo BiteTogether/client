@@ -1,15 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import i18n from 'utils/i18n';
 import Container from 'components/layout/Container';
 import Header from 'components/common/Header';
 import Avatar from 'components/common/Avatar';
 import styled from 'styled-components/native';
 import { COLORS, FONTS } from 'utils/constants/ui';
 import ProfileImageGrid from './components/ProfileImageGrid';
-import { TouchableOpacity, Text } from 'react-native';
-import { useAppDispatch } from 'hooks/redux';
-import { logoutUser } from 'store/slices/authSlice';
+import ProfileAction from './components/ProfileAction';
+import { Icon } from "@rneui/themed"
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../types';
+import { useAppSelector } from '../../hooks/redux';
 
 const UserContainer = styled.View`
   padding: 16px;
@@ -56,24 +58,27 @@ const MetaLabel = styled.Text`
 const GridMedia = styled.View``;
 
 const Profile: React.FC = () => {
-  const { i18n: i18nextInstance } = useTranslation();
-  const dispatch = useAppDispatch();
-  const handleChangeLang = () => {
-    const nextLang = i18nextInstance.language === 'en' ? 'vi' : 'en';
-    i18nextInstance.changeLanguage(nextLang);
-  };
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { t } = useTranslation();
-  const handleLogout = () => {
-    dispatch(logoutUser());
-  };
+  const profile = useAppSelector((state) => state.user.profile);
   return (
     <Container>
-      <Header />
+      <Header
+        rightIcons={[
+          <Icon 
+            name="settings"
+            type="feather"
+            size={24}
+            color="black"
+            onPress={() => navigation.navigate('Settings')}
+          />
+        ]}
+      />
       <UserContainer>
         <UserInfo>
           <Avatar size="large" />
           <UserDetails>
-            <UserName>John Doe</UserName>
+            <UserName>{profile?.fullName}</UserName>
             <UserMeta>
               <MetaItem>
                 <MetaNumber>108</MetaNumber>
@@ -94,19 +99,13 @@ const Profile: React.FC = () => {
         <UserBio>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </UserBio>
+    </UserBio>
+    <ProfileAction type="self" onEdit={() => navigation.navigate('EditProfile')} />
       </UserContainer>
 
       <GridMedia>
         <ProfileImageGrid />
       </GridMedia>
-
-      <TouchableOpacity onPress={handleChangeLang}>
-        <Text>Lang</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleLogout} style={{marginTop: 16, backgroundColor: '#FF6B35', padding: 12, borderRadius: 8, alignItems: 'center'}}>
-        <Text style={{color: '#fff', fontWeight: 'bold'}}>{t('logout')}</Text>
-      </TouchableOpacity>
     </Container>
   );
 };

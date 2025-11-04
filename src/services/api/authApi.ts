@@ -11,5 +11,5 @@ export const register = (data: RegisterRequest) => {
 };
 
 export const logout = () => {
-  return apiService.post(API_ENDPOINTS.AUTH.LOGOUT);
+  return apiService.delete(API_ENDPOINTS.AUTH.LOGOUT);
 };
