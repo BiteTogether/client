@@ -2,13 +2,17 @@ import React from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import { Icon } from '@rneui/themed';
 import { t } from 'i18next';
+import { COLORS } from 'utils/constants';
 
 interface ProfileActionProps {
   type: 'self' | 'user' | 'restaurant';
   onEdit?: () => void;
   onAddFriend?: () => void;
   onMessage?: () => void;
+  onFriends?: () => void;
+  onRejectFriendRequest?: () => void;
   isFriend?: boolean;
+  hasFriendRequestSent?: boolean;
 }
 
 const ProfileAction: React.FC<ProfileActionProps> = ({
@@ -16,26 +20,50 @@ const ProfileAction: React.FC<ProfileActionProps> = ({
   onEdit,
   onAddFriend,
   onMessage,
+  onFriends,
+  onRejectFriendRequest,
   isFriend,
+  hasFriendRequestSent,
 }) => {
   if (type === 'self') {
     return (
-      <TouchableOpacity style={styles.editBtn} onPress={onEdit}>
-        <Icon name="edit" type="feather" size={18} color="#222" style={{marginRight: 6}} />
-        <Text style={styles.editText}>{t('edit_profile')}</Text>
-      </TouchableOpacity>
+      <View style={styles.row}>
+        <TouchableOpacity style={styles.button} onPress={onEdit}>
+          <Icon name="edit" type="feather" size={18} style={{marginRight: 6}} />
+          <Text style={styles.text}>{t('edit_profile')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={onFriends}>
+          <Icon name="users" type="feather" size={18} style={{marginRight: 6}} />
+          <Text style={styles.text}>{t('friends')}</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
   if (type === 'user') {
+    let friendBtnText = t('add_friend');
+    let friendBtnIcon = 'user-plus';
+    let friendBtnStyle = [styles.button, styles.yellowBtn];
+    if (isFriend) {
+      friendBtnText = t('friends');
+      friendBtnIcon = 'users';
+      friendBtnStyle = [styles.button];
+    } else if (hasFriendRequestSent) {
+      friendBtnText = t('request_sent');
+      friendBtnIcon = 'clock';
+      friendBtnStyle = [styles.button];
+    }
     return (
       <View style={styles.row}>
-        <TouchableOpacity style={[styles.addBtn, isFriend && styles.addedBtn]} onPress={onAddFriend}>
-          <Icon name="user-plus" type="feather" size={18} color={isFriend ? '#888' : '#fff'} style={{marginRight: 6}} />
-          <Text style={[styles.addText, isFriend && styles.addedText]}>{isFriend ? 'Added' : 'Add friend'}</Text>
+        <TouchableOpacity
+          style={friendBtnStyle}
+          onPress={(isFriend || hasFriendRequestSent) ? onRejectFriendRequest : onAddFriend}
+        >
+          <Icon name={friendBtnIcon} type="feather" size={18} style={{marginRight: 6}} />
+          <Text style={styles.text}>{friendBtnText}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.msgBtn} onPress={onMessage}>
-          <Icon name="message-circle" type="feather" size={18} color="#222" style={{marginRight: 6}} />
-          <Text style={styles.msgText}>Message</Text>
+        <TouchableOpacity style={styles.button} onPress={onMessage}>
+          <Icon name="message-circle" type="feather" size={18} style={{marginRight: 6}} />
+          <Text style={styles.text}>{t('message')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -43,11 +71,11 @@ const ProfileAction: React.FC<ProfileActionProps> = ({
   if (type === 'restaurant') {
     return (
       <View style={styles.row}>
-        <TouchableOpacity style={styles.iconBtn}>
-          <Icon name="heart" type="feather" size={22} color="#222" />
+        <TouchableOpacity style={styles.button}>
+          <Icon name="heart" type="feather" size={22} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconBtn}>
-          <Icon name="user" type="feather" size={22} color="#222" />
+        <TouchableOpacity style={styles.button}>
+          <Icon name="user" type="feather" size={22} />
         </TouchableOpacity>
       </View>
     );
@@ -60,60 +88,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    marginTop: 10,
   },
-  editBtn: {
+
+  button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F2F2F2',
     borderRadius: 8,
-    marginTop: 10,
     paddingVertical: 8,
     paddingHorizontal: 18,
-    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    width: '40%',
+    backgroundColor: COLORS.GRAY_BUTTON_BG,
   },
-  editText: {
+
+  yellowBtn: {
+    backgroundColor: COLORS.ACCENT,
+  },
+
+  text: {
     fontWeight: 'bold',
     fontSize: 15,
-    color: '#222',
-  },
-  addBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFD600',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    marginRight: 10,
-  },
-  addedBtn: {
-    backgroundColor: '#F2F2F2',
-  },
-  addText: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: '#222',
-  },
-  addedText: {
-    color: '#888',
-  },
-  msgBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F2F2F2',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  msgText: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: '#222',
-  },
-  iconBtn: {
-    backgroundColor: '#F2F2F2',
-    borderRadius: 8,
-    padding: 10,
-    marginRight: 10,
   },
 });
 

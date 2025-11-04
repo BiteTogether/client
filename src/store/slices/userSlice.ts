@@ -7,6 +7,7 @@ import { STORAGE_KEYS } from '../../utils/constants';
 // Initial state
 const initialState: UserState = {
   profile: null,
+  viewingProfile: null,
   loading: false,
   error: null,
 };
@@ -128,6 +129,9 @@ const userSlice = createSlice({
       state.profile = null;
       state.error = null;
     },
+    setViewingProfile: (state, action: PayloadAction<any>) => {
+      state.viewingProfile = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // Fetch profile
@@ -211,5 +215,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearError, setLoading, updateProfileLocally, clearProfile } = userSlice.actions;
+export const { clearError, setLoading, updateProfileLocally, clearProfile, setViewingProfile } = userSlice.actions;
 export default userSlice.reducer;

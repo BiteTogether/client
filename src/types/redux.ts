@@ -21,6 +21,7 @@ export interface AuthState {
 
 export interface UserState {
   profile: ProfileResponse | null;
+  viewingProfile: any | null;
   loading: boolean;
   error: string | null;
 }

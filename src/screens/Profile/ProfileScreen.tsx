@@ -8,10 +8,14 @@ import { COLORS, FONTS } from 'utils/constants/ui';
 import ProfileImageGrid from './components/ProfileImageGrid';
 import ProfileAction from './components/ProfileAction';
 import { Icon } from "@rneui/themed"
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../types';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { setViewingProfile } from '../../store/slices/userSlice';
+import { useCallback } from 'react';
+import { fetchFriendProfile, addFriend, rejectFriendRequest, removeFriend } from 'services/api/friendsApi';
+import { Alert } from 'react-native';
 
 const UserContainer = styled.View`
   padding: 16px;
@@ -59,12 +63,103 @@ const GridMedia = styled.View``;
 
 const Profile: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const route = useRoute();
+  const { id } = (route.params ?? {}) as { id?: string };
   const { t } = useTranslation();
-  const profile = useAppSelector((state) => state.user.profile);
+  const dispatch = useAppDispatch();
+  const ownProfile = useAppSelector((state) => state.user.profile);
+  const viewingProfile = useAppSelector((state) => state.user.viewingProfile);
+  
+  const currentProfile = viewingProfile || ownProfile;
+
+  const handleAddFriend = async () => {
+    try {
+      if (id && id !== String(ownProfile?.id)) {
+        const response = await addFriend(Number(id));
+        if (response.status === 200) {
+          dispatch(setViewingProfile({
+            ...currentProfile,
+            friendItem: {
+              hasFriendRequestSent: true,
+              friendRequestId: response.data,
+            }
+          }));
+        }
+      }
+
+    } catch (error) {
+      console.error('Error adding friend:', error);
+    }
+  };
+
+  const confirmRejectFriendRequest = () => {
+    Alert.alert(
+      currentProfile.friendItem?.isFriend ? t('remove_friend') : t('remove_friend_request'),
+      currentProfile.friendItem?.isFriend ? t('remove_friend_confirmation') : t('remove_friend_request_confirmation'),
+      [
+        { text: t('cancel'), style: 'cancel' },
+        { text: t('remove'), style: 'destructive', onPress: handleRejectFriendRequest },
+      ],
+    );
+  };
+
+  const handleRejectFriendRequest = async () => {
+    try {
+      if (id && id !== String(ownProfile?.id)) {
+        let response;
+        if(currentProfile.friendItem?.isFriend) {
+          response = await removeFriend(Number(id));
+          if (response.status === 200) {
+            dispatch(setViewingProfile({
+              ...currentProfile,
+              friendItem: {
+                isFriend: false,
+              }
+            }));
+          }
+        } else {
+          response = await rejectFriendRequest(Number(currentProfile.friendItem?.friendRequestId));
+          if (response.status === 200) {
+            dispatch(setViewingProfile({
+              ...currentProfile,
+              friendItem: {
+                hasFriendRequestSent: false,
+              }
+            }));
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error rejecting friend request:', error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchProfile = async () => {
+        try {
+          if (id && id !== String(ownProfile?.id)) {
+            const response = await fetchFriendProfile(Number(id));
+            if (response.data) {
+              dispatch(setViewingProfile(response.data));
+            }
+          } else {
+            dispatch(setViewingProfile(ownProfile));
+          }
+        } catch (error) {
+          console.error('Error fetching friend profile:', error);
+        }
+      };
+      
+      fetchProfile();
+    }, [id, ownProfile, dispatch])
+  );
+
   return (
     <Container>
       <Header
         rightIcons={[
+          id ? null : (
           <Icon 
             name="settings"
             type="feather"
@@ -72,13 +167,28 @@ const Profile: React.FC = () => {
             color="black"
             onPress={() => navigation.navigate('Settings')}
           />
+          ),
         ]}
+
+        leftIcon={
+          !id ? null : (
+          <Icon
+            name="arrow-left"
+            type="feather"
+            size={24}
+            color="black"
+            onPress={() => navigation.navigate('Friends')}
+          />
+          )
+        }
+
+        leftTitle={currentProfile.username}
       />
       <UserContainer>
         <UserInfo>
-          <Avatar size="large" />
+          <Avatar size="large" uri={currentProfile?.avatar} />
           <UserDetails>
-            <UserName>{profile?.fullName}</UserName>
+            <UserName>{currentProfile?.fullName}</UserName>
             <UserMeta>
               <MetaItem>
                 <MetaNumber>108</MetaNumber>
@@ -97,10 +207,17 @@ const Profile: React.FC = () => {
         </UserInfo>
 
         <UserBio>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    </UserBio>
-    <ProfileAction type="self" onEdit={() => navigation.navigate('EditProfile')} />
+          {currentProfile?.bio || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
+        </UserBio>
+        <ProfileAction
+          type={String(currentProfile.id) !== String(ownProfile?.id) ? 'user' : 'self'}
+          isFriend={currentProfile.friendItem?.isFriend}
+          hasFriendRequestSent={currentProfile.friendItem?.hasFriendRequestSent}
+          onEdit={() => navigation.navigate('EditProfile')}
+          onFriends={() => navigation.navigate('Friends')}
+          onAddFriend={handleAddFriend}
+          onRejectFriendRequest={confirmRejectFriendRequest}
+        />
       </UserContainer>
 
       <GridMedia>

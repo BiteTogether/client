@@ -17,6 +17,7 @@ export const COLORS = {
   },
   BORDER: '#E9ECEF',
   FORM_INPUT_BG: '#F6F6F6',
+  GRAY_BUTTON_BG: '#EBEBEB',
   SHADOW: '#00000029',
   GRADIENT: {
     PRIMARY: ['#FF6B35', '#F7931E'],

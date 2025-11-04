@@ -10,9 +10,13 @@ export * from './redux';
 // Navigation types
 export type RootStackParamList = {
   Auth: undefined;
-  Main: undefined;
+  Main: {
+    screen?: keyof MainTabParamList;
+    params?: MainTabParamList[keyof MainTabParamList];
+  } | undefined;
   Settings: undefined;
   EditProfile: undefined;
+  Friends: undefined;
 };
 
 export type AuthStackParamList = {
@@ -27,7 +31,7 @@ export type MainTabParamList = {
   Swiping: undefined;
   Favorites: undefined;
   Chat: undefined;
-  Profile: undefined;
+  Profile: { id: string } | undefined;
 };
 
 export type ChatStackParamList = {

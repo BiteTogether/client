@@ -55,12 +55,12 @@ export interface RegisterRequest {
 }
 
 export interface ProfileRequest {
-  username?: string;
-  email?: string;
-  fullName?: string;
-  phoneNumber?: string;
-  avatar?: string;
-  role?: string;
+  username: string;
+  email: string;
+  fullName: string;
+  phoneNumber: string;
+  avatar: string;
+  role: string;
 }
 
 export interface ProfileResponse {
@@ -73,6 +73,10 @@ export interface ProfileResponse {
   role: string;
   createdAt: string;
   updatedAt: string;
+  foodPreferences: string;
+  friendsCount: number;
+  pushNotificationsEnabled: boolean;
+  inAppNotificationsEnabled: boolean;
 }
 
 export interface AuthResponse {

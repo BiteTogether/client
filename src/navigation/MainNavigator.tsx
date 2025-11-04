@@ -41,7 +41,34 @@ const MainNavigator: React.FC = () => {
   <Tab.Screen name="Favorites" component={Favorites} />
   <Tab.Screen name="Swiping" component={Swiping} />
   <Tab.Screen name="Chat" component={ChatNavigator} />
-  <Tab.Screen name="Profile" component={Profile} />
+  <Tab.Screen 
+    name="Profile" 
+    component={Profile} 
+    listeners={({ navigation }) => ({
+      tabPress: (e) => {
+        // Instagram-style tab behavior
+        const state = navigation.getState();
+        const currentRoute = state.routes[state.index];
+        
+        if (currentRoute.name === 'Profile') {
+          // Already on Profile tab
+          const params = currentRoute.params as { id?: string } | undefined;
+          
+          if (params?.id && params.id !== 'null') {
+            // Viewing someone else's profile → reset to own profile
+            e.preventDefault();
+            navigation.setParams({ id: null });
+          }
+          // If already viewing own profile → allow default behavior (scroll to top)
+          
+        } else {
+          // Coming from another tab → navigate to own profile
+          e.preventDefault();
+          navigation.navigate('Profile', { id: null });
+        }
+      },
+    })}
+  />
     </Tab.Navigator>
   );
 };
