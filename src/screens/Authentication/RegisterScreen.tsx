@@ -1,24 +1,71 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Yup from 'yup';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 
 import { COLORS, FONTS } from '../../utils/constants';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { registerUser, clearError } from '../../store/slices/authSlice';
 import { RegisterForm } from './components/RegisterForm';
-
+import appLogo from '@assets/app_logo.png';
+import { useTranslation } from 'react-i18next';
+import Toast from 'react-native-toast-message';
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const { loading, error } = useAppSelector((state) => state.auth);
+  const { t } = useTranslation();
+
+  const initialValues = { fullName: '', username: '', email: '', phoneNumber: '', password: '', confirmPassword: '' };
   const validationSchema = Yup.object({
-      
-    });
-  const onSubmit = (values: any) => { };
+    fullName: Yup.string().required(t('full_name_required')),
+    username: Yup.string().required(t('username_required')),
+    email: Yup.string().email(t('email_invalid')).required(t('email_required')),
+    phoneNumber: Yup.string()
+      .matches(/^0\d{9}$/, t('phone_number_invalid'))
+      .required(t('phone_number_required')),
+    password: Yup.string()
+      .min(8, t('password_invalid', { min: 8 }))
+      .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, t('password_invalid', { min: 8 }))
+      .required(t('password_required')),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password')], t('passwords_must_match'))
+      .required(t('confirm_password_required')),
+  });
+
+  const onSubmit = async (values: any) => {
+    // eslint-disable-next-line
+    const { confirmPassword, ...dataToSend } = values;
+    try {
+      const res = await dispatch(registerUser(dataToSend));
+      if (registerUser.fulfilled.match(res)) {
+        // Register successful
+        Toast.show({
+          type: 'success',
+          text1: res.payload.message,
+          text2: t('please_login_to_continue'),
+        });
+        navigation.navigate('Login' as never);
+      } else {
+        // Register failed
+        console.error('Register failed:', res.payload);
+      }
+    } catch (e: any) {
+      console.error('Register error:', e);
+    }
+  };
+
+  useEffect(() => {
+    // Reset error when entering register screen
+    dispatch(clearError());
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image 
-          source={require('../../../assets/app_logo.png')} 
+          source={appLogo} 
           style={styles.appLogo}
         />
         <Text style={styles.appName}>BiteTogether</Text>
@@ -26,7 +73,7 @@ const RegisterScreen: React.FC = () => {
 
       <View style={styles.content}>
         <RegisterForm
-          initialValues={{ email: '', password: '', confirmPassword: '', username: '', fullName: '' }}
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values) => { onSubmit(values); }}
         >
@@ -68,6 +115,18 @@ const RegisterScreen: React.FC = () => {
 
               <TextInput
                 style={styles.input}
+                placeholder='Phone Number'
+                keyboardType='phone-pad'
+                value={formikProps.values.phoneNumber}
+                onChangeText={formikProps.handleChange('phoneNumber')}
+                onBlur={formikProps.handleBlur('phoneNumber')}
+              />
+              {formikProps.touched.phoneNumber && formikProps.errors.phoneNumber ? (
+                <Text style={{ color: 'red' }}>{formikProps.errors.phoneNumber}</Text>
+              ) : null}
+
+              <TextInput
+                style={styles.input}
                 placeholder='Password'
                 secureTextEntry
                 value={formikProps.values.password}
@@ -90,8 +149,16 @@ const RegisterScreen: React.FC = () => {
                 <Text style={{ color: 'red' }}>{formikProps.errors.confirmPassword}</Text>
               ) : null}
 
-              <TouchableOpacity style={styles.registerButton}>
-                <Button title='Sign up' color={COLORS.ACCENT}/>
+              {(error) && (
+                <Text style={{ color: 'red', marginVertical: 8 }}>{error}</Text>
+              )}
+
+              <TouchableOpacity
+                style={[styles.button, loading && { opacity: 0.5 }]}
+                onPress={() => formikProps.handleSubmit()}
+                disabled={loading}
+              >
+                <Text style={styles.button_title}>{t('sign_up')}</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -99,9 +166,9 @@ const RegisterScreen: React.FC = () => {
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Already have an account?</Text>
+        <Text style={styles.footerText}>{t('already_have_an_account')}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>
-          <Text style={styles.registerNavigation}>Login.</Text>
+          <Text style={styles.loginNavigation}>{t('login')}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -148,9 +215,6 @@ const styles = StyleSheet.create({
     fontSize: FONTS.SIZES.MEDIUM,
     color: COLORS.TEXT.PRIMARY,
   },
-  registerButton: {
-    marginTop: 15,
-  },
   footer: {
     flex: 1,
     width: '100%',
@@ -166,11 +230,22 @@ const styles = StyleSheet.create({
     color: COLORS.TEXT.LIGHT,
     paddingBottom: 20,
   },
-  registerNavigation: {
+  loginNavigation: {
     fontSize: FONTS.SIZES.MEDIUM,
     color: COLORS.TEXT.PRIMARY,
     fontWeight: 'bold',
     paddingBottom: 20,
+  },
+  button: {
+    backgroundColor: COLORS.ACCENT,
+    padding: 12,
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  button_title: {
+    fontSize: FONTS.SIZES.MEDIUM,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

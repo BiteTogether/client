@@ -41,17 +41,12 @@ export const registerUser = createAsyncThunk(
       const response = await register(userData);
       
       if (response.data) {
-        // Store tokens in AsyncStorage
-        await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.data.token);
-        await AsyncStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, response.data.refreshToken);
-        await AsyncStorage.setItem(STORAGE_KEYS.USER_PROFILE, JSON.stringify(response.data.user));
-        
-        return response.data;
-      } else {
-        return rejectWithValue(response.message || 'Registration failed');
+        return { ...response.data, message: response.message };
       }
+      
+      return rejectWithValue(response.message);
     } catch (error: any) {
-      return rejectWithValue(error.message || 'Registration failed');
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -146,18 +141,12 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state) => {
         state.loading = false;
-        state.isAuthenticated = true;
-        state.token = action.payload.token;
-        state.refreshToken = action.payload.refreshToken;
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.isAuthenticated = false;
-        state.token = null;
-        state.refreshToken = null;
         state.error = action.payload as string;
       });
 
