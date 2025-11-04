@@ -14,6 +14,16 @@ export const API_ENDPOINTS = {
     PREFERENCES: '/api/users/preferences',
     LOCATION: '/api/users/location',
   },
+  FRIENDS: {
+    PROFILE: '/api/v1/users/{id}',
+    SEARCH_FRIENDS: '/api/v1/users/search',
+    LIST: '/api/v1/friends',
+    REQUESTS: '/api/v1/friend-requests/received',
+    ADD_FRIENDS: '/api/v1/friend-requests/{receiverId}',
+    ACCEPT_REQUEST: '/api/v1/friend-requests/{id}/accept',
+    REJECT_REQUEST: '/api/v1/friend-requests/{id}',
+    REMOVE_FRIEND: '/api/v1/friends/{id}',
+  },
   PLACES: {
     SWIPE_STACK: '/api/places/swipe-stack',
     SWIPE: '/api/places/swipe',

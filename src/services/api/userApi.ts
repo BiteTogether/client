@@ -6,12 +6,12 @@ export const fetchProfile = () => {
   return apiService.get<ProfileResponse>(API_ENDPOINTS.USER.PROFILE);
 };
 
-export const updateProfile = (id: number, data: ProfileRequest) => {
-  const url = API_ENDPOINTS.USER.UPDATE_PROFILE.replace('{id}', id.toString());
+export const updateProfile = (id: number, data: Partial<ProfileRequest>) => {
+  const url = API_ENDPOINTS.USER.UPDATE_PROFILE.replace('{id}', String(id));
   return apiService.put<ProfileResponse>(url, data);
 }
 
 export const deleteAccount = (id: number) => {
-  const url = API_ENDPOINTS.USER.DELETE_ACCOUNT.replace('{id}', id.toString());
+  const url = API_ENDPOINTS.USER.DELETE_ACCOUNT.replace('{id}', String(id));
   return apiService.delete(url);
 }
