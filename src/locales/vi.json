@@ -11,12 +11,18 @@
   "logout_confirmation": "Bạn có chắc chắn muốn đăng xuất không?",
   "sign_up": "Đăng ký",
   "dont_have_an_account": "Chưa có tài khoản?",
+  "already_have_an_account": "Đã có tài khoản?",
   "email_invalid": "Email không hợp lệ",
   "email_required": "Vui lòng nhập email",
-  "password_min": "Tối thiểu 6 ký tự",
+  "password_invalid": "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số",
   "password_required": "Vui lòng nhập mật khẩu",
+  "full_name_required": "Vui lòng nhập họ và tên",
+  "username_required": "Vui lòng nhập tên đăng nhập",
+  "phone_number_invalid": "Số điện thoại không hợp lệ",
+  "phone_number_required": "Vui lòng nhập số điện thoại",
+  "confirm_password_required": "Vui lòng xác nhận mật khẩu",
+  "passwords_must_match": "Mật khẩu phải khớp",
   "forgot_password": "Quên mật khẩu?",
-  "login_failed": "Đăng nhập thất bại. Vui lòng thử lại.",
   "settings": "Cài đặt",
   "edit_profile": "Sửa hồ sơ",
   "change_profile_picture": "Thay đổi ảnh đại diện",
@@ -27,5 +33,6 @@
   "language": "Ngôn ngữ",
   "select_language": "Chọn ngôn ngữ",
   "english": "Tiếng Anh",
-  "vietnamese": "Tiếng Việt"
+  "vietnamese": "Tiếng Việt",
+  "please_login_to_continue": "Vui lòng đăng nhập để tiếp tục"
 }
