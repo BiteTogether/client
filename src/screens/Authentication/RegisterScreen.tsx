@@ -52,7 +52,7 @@ const RegisterScreen: React.FC = () => {
         console.error('Register failed:', res.payload);
       }
     } catch (e: any) {
-      console.error('Register error:', e);
+      console.error('Error registering:', e);
     }
   };
 

@@ -3,9 +3,9 @@
 
 BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 
-# Quy tắc: feature/*, bugfix/*, hotfix/*, develop, dev, main
-if ! echo "$BRANCH_NAME" | grep -Eq '^(feature|bugfix|hotfix)/[a-zA-Z0-9_-]+$|^develop$|^dev$|^main$'; then
+# Rules: feature/*, bugfix/*, hotfix/*, chore/*, develop, main
+if ! echo "$BRANCH_NAME" | grep -Eq '^(feature|bugfix|hotfix|chore)/[a-zA-Z0-9_-]+$|^develop$|^main$'; then
   echo "\033[0;31m[ERROR] Branch name '$BRANCH_NAME' is invalid!\033[0m"
-  echo "Branch name must follow convention: feature/<desc>, bugfix/<desc>, hotfix/<desc>, develop, dev, main"
+  echo "Branch name must follow convention: feature/<desc>, bugfix/<desc>, hotfix/<desc>, chore/<desc>, develop, main"
   exit 1
 fi

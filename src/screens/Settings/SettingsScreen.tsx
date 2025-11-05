@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { logoutUser } from 'store/slices/authSlice';
 import { deleteUserAccount } from 'store/slices/userSlice';
 import { ScrollView } from 'react-native-gesture-handler';
-import { COLORS } from 'utils/constants';
+import { COLORS, FONTS } from 'utils/constants';
 import Toast from 'react-native-toast-message';
 
 const Section = styled.View`
@@ -18,7 +18,7 @@ const Section = styled.View`
 `;
 
 const SectionTitle = styled.Text`
-  font-size: 15px;
+  font-size: ${FONTS.SIZES.MEDIUM}px;
   font-weight: 600;
   color: #888;
   margin-bottom: 10px;
@@ -42,12 +42,12 @@ const RowText = styled.View`
 `;
 
 const RowTitle = styled.Text`
-  font-size: 16px;
+  font-size: ${FONTS.SIZES.LARGE}px;
   color: #222;
 `;
 
 const RowSubtitle = styled.Text`
-  font-size: 13px;
+  font-size: ${FONTS.SIZES.SMALL}px;
   color: #888;
   margin-top: 2px;
 `;
@@ -86,6 +86,7 @@ const Settings: React.FC = () => {
             type: 'success',
             text1: result.payload.message,
           });
+          dispatch(logoutUser());
         } else {
           Toast.show({
             type: 'error',
@@ -94,7 +95,7 @@ const Settings: React.FC = () => {
         }
       }
     } catch (e) {
-      console.error('Error delete account:', e);
+      console.error('Error deleting account:', e);
     }
   };
 
@@ -118,13 +119,10 @@ const Settings: React.FC = () => {
           text1: result.payload.message,
         });
       } else {
-        Toast.show({
-          type: 'error',
-          text1: typeof result.payload === 'string' ? result.payload : JSON.stringify(result.payload),
-        });
+        console.error('Logout failed:', result.payload);
       }
     } catch (error) {
-      console.error('Error logout:', error);
+      console.error('Error logging out:', error);
     }
   };
 
@@ -210,9 +208,9 @@ const Settings: React.FC = () => {
             type="feather"
             size={24}
             color="black"
-            onPress={() => navigation.goBack()}
           />
         ]}
+        onLeftPress={() => navigation.goBack()}
         leftTitle={t('settings')}
       />
 
@@ -298,12 +296,12 @@ const Settings: React.FC = () => {
           />
           {/* Modal */}
           <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: '#fff', borderTopLeftRadius: 16, borderTopRightRadius: 16, padding: 24, zIndex: 100}}>
-            <Text style={{fontWeight: 'bold', fontSize: 18, marginBottom: 16}}>{t('select_language')}</Text>
+            <Text style={{fontWeight: 'bold', fontSize: FONTS.SIZES.XLARGE, marginBottom: 16}}>{t('select_language')}</Text>
             <TouchableOpacity onPress={() => {i18nextInstance.changeLanguage('en'); setShowLangPicker(false);}} style={{padding: 14, borderRadius: 8, backgroundColor: i18nextInstance.language === 'en' ? '#f0f0f0' : '#fff', marginBottom: 8}}>
-              <Text style={{fontSize: 16}}>{t('english')}</Text>
+              <Text style={{fontSize: FONTS.SIZES.LARGE}}>{t('english')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {i18nextInstance.changeLanguage('vi'); setShowLangPicker(false);}} style={{padding: 14, borderRadius: 8, backgroundColor: i18nextInstance.language === 'vi' ? '#f0f0f0' : '#fff'}}>
-              <Text style={{fontSize: 16}}>{t('vietnamese')}</Text>
+              <Text style={{fontSize: FONTS.SIZES.LARGE}}>{t('vietnamese')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setShowLangPicker(false)} style={{marginTop: 16, alignItems: 'center'}}>
               <Text style={{color: COLORS.ERROR, fontWeight: 'bold'}}>{t('cancel')}</Text>

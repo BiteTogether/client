@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
 import { FAB, Icon, Input } from "@rneui/themed"
 
-import { COLORS, CURRENT_RECIPIENT } from "../../utils/constants"
+import { COLORS, CURRENT_RECIPIENT, FONTS } from "../../utils/constants"
 import { MessageCurrentRecipientContent } from "./components/MessageCurrentRecipientContent"
 import { MessageItem } from "./components/MessageItem"
 import { ReceivedMessageTextItem } from "./components/ReceivedMessageTextItem"
@@ -24,7 +24,7 @@ const MessageScreen = () => {
                 <MessageItem
                     itemStyle={styles.item}
                     imageContent={CURRENT_RECIPIENT.imageUri}
-                    imageContentStyle={styles.avatar}
+                    // imageContentStyle={styles.avatar}
                     textContent={
                         <MessageCurrentRecipientContent
                             username={CURRENT_RECIPIENT.textContent.username}
@@ -38,7 +38,7 @@ const MessageScreen = () => {
                     textContent={<Text style={styles.sentMessageText}>Hello</Text>} />
                 <MessageItem 
                     imageContent={CURRENT_RECIPIENT.imageUri}
-                    imageContentStyle={styles.avatar}
+                    // imageContentStyle={styles.avatar}
                     itemStyle={styles.receivedMessageContainer}
                     textContent={
                         <ReceivedMessageTextItem
@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 8,
     },
-    avatar: {
-        rounded: true,
-    },
+    // avatar: {
+    //     rounded: true,
+    // },
     messageSpace: {
         width: "100%",
         height: "78%",
@@ -122,13 +122,13 @@ const styles = StyleSheet.create({
     },
     sentMessageText: {
         color: '#FFFFFF',
-        fontSize: 14,
+        fontSize: FONTS.SIZES.MEDIUM,
         lineHeight: 20,
 
     },
     receivedMessageText: {
         color: '#000000',
-        fontSize: 14,
+        fontSize: FONTS.SIZES.MEDIUM,
         lineHeight: 20,
     },
     footer: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     },
     inputStyle: {
         fontWeight: "bold",
-        fontSize: 14,
+        fontSize: FONTS.SIZES.MEDIUM,
         padding: 0,
         margin: 0,
     },

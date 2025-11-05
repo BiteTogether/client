@@ -16,7 +16,7 @@ import { FormikForm } from 'components/common/formik/FormikForm';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { updateUserProfile } from '../../store/slices/userSlice';
-import { COLORS } from '../../utils/constants';
+import { COLORS, FONTS } from '../../utils/constants';
 import Toast from 'react-native-toast-message';
 
 const Section = styled.View`
@@ -29,7 +29,7 @@ const AvatarContainer = styled.View`
 `;
 const AvatarLabel = styled.Text`
   margin-top: 10px;
-  font-size: 14px;
+  font-size: ${FONTS.SIZES.MEDIUM}px;
   font-weight: bold;
   text-align: center;
 `;
@@ -40,7 +40,7 @@ const StyledInput = styled.TextInput`
   border-radius: 8px;
   padding: 14px 16px;
   margin-bottom: 14px;
-  font-size: 16px;
+  font-size: ${FONTS.SIZES.LARGE}px;
 `;
 
 const EditProfile: React.FC = () => {
@@ -95,7 +95,7 @@ const EditProfile: React.FC = () => {
         }
       }
     } catch (e) {
-      console.error('Update profile error:', e);
+      console.error('Error updating profile:', e);
     }
   };
 
@@ -115,9 +115,9 @@ const EditProfile: React.FC = () => {
                 type="feather"
                 size={24}
                 color="black"
-                onPress={() => navigation.goBack()}
               />,
             ]}
+            onLeftPress={() => navigation.goBack()}
             leftTitle={t('edit_profile')}
             rightIcons={
               formikProps.dirty

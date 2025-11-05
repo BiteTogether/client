@@ -55,15 +55,16 @@ export const logoutUser = createAsyncThunk(
   'auth/logout',
   async (_, { rejectWithValue }) => {
     try {
+      // Clear AsyncStorage
+      await AsyncStorage.multiRemove([
+        STORAGE_KEYS.ACCESS_TOKEN,
+        STORAGE_KEYS.REFRESH_TOKEN,
+        STORAGE_KEYS.USER_PROFILE,
+      ]);
+      
       const response = await logout();
       
       if (response.status === 200) {
-        // Clear AsyncStorage
-        await AsyncStorage.multiRemove([
-          STORAGE_KEYS.ACCESS_TOKEN,
-          STORAGE_KEYS.REFRESH_TOKEN,
-          STORAGE_KEYS.USER_PROFILE,
-        ]);
         return { message: response.message };
       }
       

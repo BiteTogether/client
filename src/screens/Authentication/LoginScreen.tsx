@@ -37,7 +37,7 @@ const LoginScreen: React.FC = () => {
         console.error('Login failed:', res.payload);
       }
     } catch (e: any) {
-      console.error('Login error:', e);
+      console.error('Error logging in:', e);
     }
   };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import { Icon } from '@rneui/themed';
 import { t } from 'i18next';
-import { COLORS } from 'utils/constants';
+import { COLORS, FONTS } from 'utils/constants';
 
 interface ProfileActionProps {
   type: 'self' | 'user' | 'restaurant';
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: FONTS.SIZES.MEDIUM,
   },
 });
 
