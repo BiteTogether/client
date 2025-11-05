@@ -86,6 +86,7 @@ const Settings: React.FC = () => {
             type: 'success',
             text1: result.payload.message,
           });
+          dispatch(logoutUser());
         } else {
           Toast.show({
             type: 'error',
@@ -94,7 +95,7 @@ const Settings: React.FC = () => {
         }
       }
     } catch (e) {
-      console.error('Error delete account:', e);
+      console.error('Error deleting account:', e);
     }
   };
 
@@ -118,13 +119,10 @@ const Settings: React.FC = () => {
           text1: result.payload.message,
         });
       } else {
-        Toast.show({
-          type: 'error',
-          text1: typeof result.payload === 'string' ? result.payload : JSON.stringify(result.payload),
-        });
+        console.error('Logout failed:', result.payload);
       }
     } catch (error) {
-      console.error('Error logout:', error);
+      console.error('Error logging out:', error);
     }
   };
 

@@ -95,7 +95,7 @@ const EditProfile: React.FC = () => {
         }
       }
     } catch (e) {
-      console.error('Update profile error:', e);
+      console.error('Error updating profile:', e);
     }
   };
 

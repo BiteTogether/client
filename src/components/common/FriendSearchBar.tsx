@@ -30,7 +30,7 @@ const FriendSearchBar: React.FC<FriendSearchBarProps> = ({ value, type, setSearc
             setFriendSearch(null);
           }
         } catch (error) {
-          console.error(error);
+          console.error('Error searching friend:', error);
         }
       }
     }, 400),
