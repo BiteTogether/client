@@ -14,6 +14,7 @@ import { t } from 'i18next';
 import { getFriendsList, getFriendRequests, acceptFriendRequest, rejectFriendRequest } from 'services/api/friendsApi'; 
 import { FriendsListResponse, SearchFriendResponse, FriendRequestsResponse } from '../../types/friends';
 import { Alert, TouchableOpacity } from 'react-native';
+import FullScreenLoader from 'components/common/FullScreenLoader';
 
 const Section = styled.View`
   margin: 16px;
@@ -88,12 +89,15 @@ const Friends: React.FC = () => {
   const [friendSearch, setFriendSearch] = useState<SearchFriendResponse | null>(null);
   const [friendsList, setFriendsList] = useState<FriendsListResponse | null>(null);
   const [friendRequests, setFriendRequests] = useState<FriendRequestsResponse | null>(null);
+  const [loadingFriendsList, setLoadingFriendsList] = useState(false);
+  const [loadingFriendRequests, setLoadingFriendRequests] = useState(false);
 
   const filteredFriends = friendsList?.filter(f =>
     f.fullName.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleGetFriendsList = async () => {
+    setLoadingFriendsList(true);
     try {
       const response = await getFriendsList();
       if (response.data) {
@@ -101,10 +105,13 @@ const Friends: React.FC = () => {
       }
     } catch (error) {
       console.error('Error getting friends list:', error);
+    } finally {
+      setLoadingFriendsList(false);
     }
   };
 
   const handleGetFriendsRequest = async () => {
+    setLoadingFriendRequests(true);
     try {
       const response = await getFriendRequests();
       if (response.data) {
@@ -112,6 +119,8 @@ const Friends: React.FC = () => {
       }
     } catch (error) {
       console.error('Error getting friends requests:', error);
+    } finally {
+      setLoadingFriendRequests(false);
     }
   };
 
@@ -163,6 +172,8 @@ const Friends: React.FC = () => {
     handleGetFriendsList();
     handleGetFriendsRequest();
   }, []);
+
+  if (loadingFriendsList || loadingFriendRequests) return <FullScreenLoader />;
 
   return (
     <Container>

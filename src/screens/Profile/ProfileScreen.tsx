@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Container from 'components/layout/Container';
 import Header from 'components/common/Header';
@@ -13,9 +13,9 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../types';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { setViewingProfile } from '../../store/slices/userSlice';
-import { useCallback } from 'react';
 import { fetchFriendProfile, addFriend, rejectFriendRequest, removeFriend } from 'services/api/friendsApi';
 import { Alert } from 'react-native';
+import FullScreenLoader from 'components/common/FullScreenLoader';
 
 const UserContainer = styled.View`
   padding: 16px;
@@ -67,6 +67,7 @@ const Profile: React.FC = () => {
   const { id } = (route.params ?? {}) as { id?: string };
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
   const ownProfile = useAppSelector((state) => state.user.profile);
   const viewingProfile = useAppSelector((state) => state.user.viewingProfile);
   
@@ -137,6 +138,7 @@ const Profile: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       const fetchProfile = async () => {
+        setLoading(true);
         try {
           if (id && id !== String(ownProfile?.id)) {
             const response = await fetchFriendProfile(Number(id));
@@ -148,12 +150,16 @@ const Profile: React.FC = () => {
           }
         } catch (error) {
           console.error('Error fetching friend profile:', error);
+        } finally {
+          setLoading(false);
         }
       };
       
       fetchProfile();
     }, [id, ownProfile, dispatch])
   );
+
+  if (loading) return <FullScreenLoader />;
 
   return (
     <Container>
