@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_CONFIG, STORAGE_KEYS } from '../../utils/constants';
 import { ApiResponse } from '../../types';
+import { refreshToken } from './authApi';
 
 class ApiService {
   private instance: AxiosInstance;
@@ -43,24 +44,24 @@ class ApiService {
           originalRequest._retry = true;
           
           try {
-            const refreshToken = await AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
-            if (refreshToken) {
-              const response = await this.instance.post('/api/auth/refresh', {
-                refreshToken,
-              });
-              
-              const { token } = response.data;
-              await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, token);
-              
-              // Retry the original request with new token
-              originalRequest.headers.Authorization = `Bearer ${token}`;
-              return this.instance(originalRequest);
+            const refreshTokenValue = await AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+            if (refreshTokenValue) {
+              const response = await refreshToken(refreshTokenValue);
+              if (response.data && response.data.access_token) {
+                const token = response.data.access_token;
+                await AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, token);
+                
+                // Retry the original request with new token
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+                return this.instance(originalRequest);
+              }
             }
           } catch (refreshError) {
             // Refresh failed, redirect to login
             await this.clearTokens();
-            // You can dispatch a logout action here
-            console.log('Token refresh failed, redirecting to login');
+            // Token refresh failed, redirecting to login
+            // Dispatch a logout action
+            console.error('Error refreshing token:', refreshError);
           }
         }
         
@@ -73,7 +74,6 @@ class ApiService {
     await AsyncStorage.multiRemove([
       STORAGE_KEYS.ACCESS_TOKEN,
       STORAGE_KEYS.REFRESH_TOKEN,
-      STORAGE_KEYS.USER_PROFILE,
     ]);
   }
 

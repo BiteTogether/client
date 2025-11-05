@@ -1,36 +1,3 @@
-// User related types
-export interface User {
-  id: string;
-  email: string;
-  username: string;
-  fullName: string;
-  avatar?: string;
-  bio?: string;
-  location?: {
-    latitude: number;
-    longitude: number;
-    address: string;
-  };
-  preferences: UserPreferences;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface UserPreferences {
-  cuisineTypes: string[];
-  priceRange: {
-    min: number;
-    max: number;
-  };
-  dietaryRestrictions: string[];
-  maxDistance: number; // in kilometers
-  notifications: {
-    matches: boolean;
-    messages: boolean;
-    feed: boolean;
-  };
-}
-
 // Authentication types
 export interface LoginRequest {
   email: string;
@@ -54,6 +21,13 @@ export interface RegisterRequest {
   fullName: string;
 }
 
+export interface RefreshTokenResponse {
+  access_token: string;
+  expires_in: number;
+  session_state: string;
+}
+
+// User types
 export interface ProfileRequest {
   username: string;
   email: string;
@@ -77,10 +51,4 @@ export interface ProfileResponse {
   friendsCount: number;
   pushNotificationsEnabled: boolean;
   inAppNotificationsEnabled: boolean;
-}
-
-export interface AuthResponse {
-  user: User;
-  token: string;
-  refreshToken: string;
 }

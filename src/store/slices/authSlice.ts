@@ -59,7 +59,6 @@ export const logoutUser = createAsyncThunk(
       await AsyncStorage.multiRemove([
         STORAGE_KEYS.ACCESS_TOKEN,
         STORAGE_KEYS.REFRESH_TOKEN,
-        STORAGE_KEYS.USER_PROFILE,
       ]);
       
       const response = await logout();
@@ -81,13 +80,11 @@ export const checkAuthToken = createAsyncThunk(
     try {
       const token = await AsyncStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
       const refreshToken = await AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
-      const userProfile = await AsyncStorage.getItem(STORAGE_KEYS.USER_PROFILE);
       
-      if (token && refreshToken && userProfile) {
+      if (token && refreshToken) {
         return {
           token,
           refreshToken,
-          user: JSON.parse(userProfile),
         };
       } else {
         return rejectWithValue('No valid tokens found');
