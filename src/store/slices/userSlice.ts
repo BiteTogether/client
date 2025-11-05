@@ -20,8 +20,6 @@ export const fetchUserProfile = createAsyncThunk(
       const response = await fetchProfile();
       
       if (response.data) {
-        // Cache profile in AsyncStorage
-        await AsyncStorage.setItem(STORAGE_KEYS.USER_PROFILE, JSON.stringify(response.data));
         return response.data;
       } else {
         return rejectWithValue(response.message);
@@ -39,8 +37,6 @@ export const updateUserProfile = createAsyncThunk(
       const response = await updateProfile(id, profileData);
       
       if (response.data) {
-        // Cache profile in AsyncStorage
-        await AsyncStorage.setItem(STORAGE_KEYS.USER_PROFILE, JSON.stringify(response.data));
         return { ...response.data, message: response.message };
       } else {
         return rejectWithValue(response.message);
@@ -59,7 +55,6 @@ export const deleteUserAccount = createAsyncThunk(
       if (response.status === 200) {
         // Remove profile from AsyncStorage
         await AsyncStorage.multiRemove([
-          STORAGE_KEYS.USER_PROFILE,
           STORAGE_KEYS.ACCESS_TOKEN,
           STORAGE_KEYS.REFRESH_TOKEN,
         ]);
