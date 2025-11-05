@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { COLORS } from 'utils/constants/ui';
+import { COLORS, FONTS } from 'utils/constants/ui';
 import { TouchableOpacity, Text } from 'react-native';
 
 export type HeaderProps = {
@@ -46,7 +46,7 @@ const Right = styled.View`
 `;
 
 const LeftTitle = styled.Text`
-  fontSize: 20px;
+  fontSize: ${FONTS.SIZES.XXLARGE}px;
   fontWeight: bold;
 `;
 

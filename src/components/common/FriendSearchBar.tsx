@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, forwardRef } from 'react';
 import debounce from 'lodash.debounce';
 import { t } from 'i18next';
-import { COLORS } from 'utils/constants';
+import { COLORS, FONTS } from 'utils/constants';
 import styled from 'styled-components/native';
 import { searchFriend } from 'services/api/friendsApi';
 import { Icon } from '@rneui/themed';
@@ -97,7 +97,7 @@ const SearchBarWrapper = styled.View`
 
 const StyledTextInput = styled(TextInput)`
   min-height: 36px;
-  font-size: 15px;
+  font-size: ${FONTS.SIZES.MEDIUM}px;
   padding-left: 8px;
   flex: 1;
 `;

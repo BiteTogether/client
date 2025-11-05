@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from "react-native"
-
+import { FONTS } from "../../../utils/constants"
 export const ReceivedMessageTextItem = ({
     messageText
 } : { messageText: string }) => {
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     },
     receivedMessageText: {
         color: '#000000',
-        fontSize: 14,
+        fontSize: FONTS.SIZES.MEDIUM,
         lineHeight: 20,
     },
 })

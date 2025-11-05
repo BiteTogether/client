@@ -21,7 +21,7 @@ const Section = styled.View`
 `;
 
 const SectionTitle = styled.Text`
-  font-size: 15px;
+  font-size: ${FONTS.SIZES.MEDIUM}px;
   font-weight: 600;
   color: #888;
   margin-bottom: 10px;
@@ -39,12 +39,12 @@ const RowText = styled.View`
 `;
 
 const RowTitle = styled.Text`
-  font-size: 16px;
+  font-size: ${FONTS.SIZES.LARGE}px;
   font-weight: ${FONTS.WEIGHTS.SEMIBOLD};
 `;
 
 const RowSubtitle = styled.Text`
-  font-size: 13px;
+  font-size: ${FONTS.SIZES.SMALL}px;
   color: ${COLORS.TEXT.LIGHT};
   margin-top: 4px;
 `;
@@ -66,7 +66,7 @@ const RejectIcon = styled(Icon).attrs({
 
 const EmptyText = styled.Text`
   color: #888;
-  font-size: 14px;
+  font-size: ${FONTS.SIZES.MEDIUM}px;
   padding-vertical: 8px;
   text-align: center;
 `;
@@ -80,7 +80,7 @@ const AcceptButton = styled.TouchableOpacity`
 
 const AcceptButtonText = styled.Text`
   font-weight: bold;
-  font-size: 13px;
+  font-size: ${FONTS.SIZES.SMALL}px;
 `;
 
 const Friends: React.FC = () => {
