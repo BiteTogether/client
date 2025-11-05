@@ -53,3 +53,34 @@ export interface RegisterRequest {
   username: string;
   fullName: string;
 }
+
+export interface ProfileRequest {
+  username: string;
+  email: string;
+  fullName: string;
+  phoneNumber: string;
+  avatar: string;
+  role: string;
+}
+
+export interface ProfileResponse {
+  id: number;
+  username: string;
+  email: string;
+  fullName: string;
+  phoneNumber: string;
+  avatar?: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  foodPreferences: string;
+  friendsCount: number;
+  pushNotificationsEnabled: boolean;
+  inAppNotificationsEnabled: boolean;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+  refreshToken: string;
+}

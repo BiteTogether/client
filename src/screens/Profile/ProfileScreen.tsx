@@ -1,15 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import i18n from 'utils/i18n';
 import Container from 'components/layout/Container';
 import Header from 'components/common/Header';
 import Avatar from 'components/common/Avatar';
 import styled from 'styled-components/native';
 import { COLORS, FONTS } from 'utils/constants/ui';
 import ProfileImageGrid from './components/ProfileImageGrid';
-import { TouchableOpacity, Text } from 'react-native';
-import { useAppDispatch } from 'hooks/redux';
-import { logoutUser } from 'store/slices/authSlice';
+import ProfileAction from './components/ProfileAction';
+import { Icon } from "@rneui/themed"
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../types';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { setViewingProfile } from '../../store/slices/userSlice';
+import { useCallback } from 'react';
+import { fetchFriendProfile, addFriend, rejectFriendRequest, removeFriend } from 'services/api/friendsApi';
+import { Alert } from 'react-native';
 
 const UserContainer = styled.View`
   padding: 16px;
@@ -56,24 +62,133 @@ const MetaLabel = styled.Text`
 const GridMedia = styled.View``;
 
 const Profile: React.FC = () => {
-  const { i18n: i18nextInstance } = useTranslation();
-  const dispatch = useAppDispatch();
-  const handleChangeLang = () => {
-    const nextLang = i18nextInstance.language === 'en' ? 'vi' : 'en';
-    i18nextInstance.changeLanguage(nextLang);
-  };
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const route = useRoute();
+  const { id } = (route.params ?? {}) as { id?: string };
   const { t } = useTranslation();
-  const handleLogout = () => {
-    dispatch(logoutUser());
+  const dispatch = useAppDispatch();
+  const ownProfile = useAppSelector((state) => state.user.profile);
+  const viewingProfile = useAppSelector((state) => state.user.viewingProfile);
+  
+  const currentProfile = viewingProfile || ownProfile;
+
+  const handleAddFriend = async () => {
+    try {
+      if (id && id !== String(ownProfile?.id)) {
+        const response = await addFriend(Number(id));
+        if (response.status === 200) {
+          dispatch(setViewingProfile({
+            ...currentProfile,
+            friendItem: {
+              hasFriendRequestSent: true,
+              friendRequestId: response.data,
+            }
+          }));
+        }
+      }
+
+    } catch (error) {
+      console.error('Error adding friend:', error);
+    }
   };
+
+  const confirmRejectFriendRequest = () => {
+    Alert.alert(
+      currentProfile.friendItem?.isFriend ? t('remove_friend') : t('remove_friend_request'),
+      currentProfile.friendItem?.isFriend ? t('remove_friend_confirmation') : t('remove_friend_request_confirmation'),
+      [
+        { text: t('cancel'), style: 'cancel' },
+        { text: t('remove'), style: 'destructive', onPress: handleRejectFriendRequest },
+      ],
+    );
+  };
+
+  const handleRejectFriendRequest = async () => {
+    try {
+      if (id && id !== String(ownProfile?.id)) {
+        let response;
+        if(currentProfile.friendItem?.isFriend) {
+          response = await removeFriend(Number(id));
+          if (response.status === 200) {
+            dispatch(setViewingProfile({
+              ...currentProfile,
+              friendItem: {
+                isFriend: false,
+              }
+            }));
+          }
+        } else {
+          response = await rejectFriendRequest(Number(currentProfile.friendItem?.friendRequestId));
+          if (response.status === 200) {
+            dispatch(setViewingProfile({
+              ...currentProfile,
+              friendItem: {
+                hasFriendRequestSent: false,
+              }
+            }));
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error rejecting friend request:', error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchProfile = async () => {
+        try {
+          if (id && id !== String(ownProfile?.id)) {
+            const response = await fetchFriendProfile(Number(id));
+            if (response.data) {
+              dispatch(setViewingProfile(response.data));
+            }
+          } else {
+            dispatch(setViewingProfile(ownProfile));
+          }
+        } catch (error) {
+          console.error('Error fetching friend profile:', error);
+        }
+      };
+      
+      fetchProfile();
+    }, [id, ownProfile, dispatch])
+  );
+
   return (
     <Container>
-      <Header />
+      <Header
+        rightIcons={[
+          id ? null : (
+          <Icon 
+            name="settings"
+            type="feather"
+            size={24}
+            color="black"
+            onPress={() => navigation.navigate('Settings')}
+          />
+          ),
+        ]}
+
+        leftIcon={
+          !id ? null : (
+          <Icon
+            name="arrow-left"
+            type="feather"
+            size={24}
+            color="black"
+            onPress={() => navigation.navigate('Friends')}
+          />
+          )
+        }
+
+        leftTitle={currentProfile.username}
+      />
       <UserContainer>
         <UserInfo>
-          <Avatar size="large" />
+          <Avatar size="large" uri={currentProfile?.avatar} />
           <UserDetails>
-            <UserName>John Doe</UserName>
+            <UserName>{currentProfile?.fullName}</UserName>
             <UserMeta>
               <MetaItem>
                 <MetaNumber>108</MetaNumber>
@@ -92,21 +207,22 @@ const Profile: React.FC = () => {
         </UserInfo>
 
         <UserBio>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          {currentProfile?.bio || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
         </UserBio>
+        <ProfileAction
+          type={String(currentProfile.id) !== String(ownProfile?.id) ? 'user' : 'self'}
+          isFriend={currentProfile.friendItem?.isFriend}
+          hasFriendRequestSent={currentProfile.friendItem?.hasFriendRequestSent}
+          onEdit={() => navigation.navigate('EditProfile')}
+          onFriends={() => navigation.navigate('Friends')}
+          onAddFriend={handleAddFriend}
+          onRejectFriendRequest={confirmRejectFriendRequest}
+        />
       </UserContainer>
 
       <GridMedia>
         <ProfileImageGrid />
       </GridMedia>
-
-      <TouchableOpacity onPress={handleChangeLang}>
-        <Text>Lang</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleLogout} style={{marginTop: 16, backgroundColor: '#FF6B35', padding: 12, borderRadius: 8, alignItems: 'center'}}>
-        <Text style={{color: '#fff', fontWeight: 'bold'}}>{t('logout')}</Text>
-      </TouchableOpacity>
     </Container>
   );
 };

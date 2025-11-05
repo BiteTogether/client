@@ -1,22 +1,18 @@
 import { View } from "react-native"
 import { IBaseItem } from "../../../types"
-import { Avatar } from "@rneui/themed"
-
+import Avatar from "../Avatar"
 
 export const BaseItem = ({
     imageContent,
     textContent,
-    itemStyle,
-    imageContentStyle
 } : IBaseItem) => {
     return (
-        <View style={itemStyle}>
-            { imageContent ? (
+        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, gap: 8 }}>
                 <Avatar
-                    {...imageContentStyle}
-                    source={{ uri : imageContent }} />
-            ) : null}
+                    uri={imageContent}
+                />
             { textContent }
         </View>
     )
 }
+export default BaseItem;
