@@ -64,7 +64,12 @@ const Header: React.FC<HeaderProps> = ({
     <Container style={style}>
       <Left>
         {leftIcon && (
-          <TouchableOpacity onPress={onLeftPress}>{leftIcon}</TouchableOpacity>
+          <TouchableOpacity
+            hitSlop={{ top: 16, bottom: 16, left: 16, right: 16 }}
+            onPress={onLeftPress}
+          >
+            {leftIcon}
+          </TouchableOpacity>
         )}
         {leftTitle && (
           <LeftTitle>{leftTitle}</LeftTitle>

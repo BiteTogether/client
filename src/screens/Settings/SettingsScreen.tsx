@@ -208,9 +208,9 @@ const Settings: React.FC = () => {
             type="feather"
             size={24}
             color="black"
-            onPress={() => navigation.goBack()}
           />
         ]}
+        onLeftPress={() => navigation.goBack()}
         leftTitle={t('settings')}
       />
 

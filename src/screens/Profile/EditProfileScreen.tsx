@@ -115,9 +115,9 @@ const EditProfile: React.FC = () => {
                 type="feather"
                 size={24}
                 color="black"
-                onPress={() => navigation.goBack()}
               />,
             ]}
+            onLeftPress={() => navigation.goBack()}
             leftTitle={t('edit_profile')}
             rightIcons={
               formikProps.dirty

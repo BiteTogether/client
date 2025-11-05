@@ -171,10 +171,10 @@ const Profile: React.FC = () => {
             type="feather"
             size={24}
             color="black"
-            onPress={() => navigation.navigate('Settings')}
           />
           ),
         ]}
+        onRightPress={[() => navigation.navigate('Settings')]}
 
         leftIcon={
           !id ? null : (
@@ -183,10 +183,10 @@ const Profile: React.FC = () => {
             type="feather"
             size={24}
             color="black"
-            onPress={() => navigation.navigate('Friends')}
           />
           )
         }
+        onLeftPress={() => navigation.navigate('Friends')}
 
         leftTitle={currentProfile.username}
       />

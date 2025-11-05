@@ -185,9 +185,9 @@ const Friends: React.FC = () => {
             type="feather"
             size={24}
             color="black"
-            onPress={() => navigation.navigate('Main', { screen: 'Profile' })}
           />,
         ]}
+        onLeftPress={() => navigation.navigate('Main', { screen: 'Profile' })}
         leftTitle={t('friends')}
       />
 
