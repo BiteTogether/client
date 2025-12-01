@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, forwardRef } from 'react';
+import React, { useMemo, useRef, forwardRef } from 'react';
 import debounce from 'lodash.debounce';
 import { t } from 'i18next';
 import { COLORS, FONTS } from 'utils/constants';
@@ -18,9 +18,8 @@ interface FriendSearchBarProps {
 
 const FriendSearchBar: React.FC<FriendSearchBarProps> = ({ value, type, setSearch, setFriendSearch }) => {
   const searchInputRef = useRef<TextInput>(null);
-  //eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSearch = useCallback(
-    debounce(async (text: string) => {
+  const debouncedSearch = useMemo(
+    () => debounce(async (text: string) => {
       if (type === 'search-friends' && text.trim() !== '') {
         try {
           const response = await searchFriend(text);

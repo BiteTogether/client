@@ -1,6 +1,7 @@
 import apiService from './index';
 import { API_ENDPOINTS } from './endpoints';
-import { SearchFriendResponse, FriendProfileResponse, FriendsListResponse, FriendRequestsResponse, GetListParams } from '../../types/friends';
+import { SearchFriendResponse, FriendProfileResponse, FriendsListResponse, FriendRequestsResponse } from '../../types/friends';
+import { GetListParams } from '../../types/';
 
 export const searchFriend = (keyword: string) => {
   return apiService.post<SearchFriendResponse>(API_ENDPOINTS.FRIENDS.SEARCH_FRIENDS, { keyword });

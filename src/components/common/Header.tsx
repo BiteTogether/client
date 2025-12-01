@@ -11,21 +11,19 @@ export type HeaderProps = {
   onRightPress?: Array<() => void>;
   title?: string;
   centerContent?: React.ReactNode;
-  style?: object;
 };
 
 const Container = styled.View`
   width: 100%;
   height: 84px;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 8px 16px;
   background-color: ${COLORS.HEADER_BG};
 `;
 
 const Left = styled.View`
-  margin-top: 40px;
   flex-direction: row;
   align-items: center;
   gap: 12px;
@@ -35,11 +33,9 @@ const Center = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
 `;
 
 const Right = styled.View`
-  margin-top: 40px;
   flex-direction: row;
   align-items: center;
   gap: 22px;
@@ -58,10 +54,9 @@ const Header: React.FC<HeaderProps> = ({
   onRightPress = [],
   title,
   centerContent,
-  style,
 }) => {
   return (
-    <Container style={style}>
+    <Container>
       <Left>
         {leftIcon && (
           <TouchableOpacity

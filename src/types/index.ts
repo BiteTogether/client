@@ -1,6 +1,4 @@
-import { AvatarProps } from '@rneui/themed';
 import React from 'react'
-import { StyleProp, ViewStyle } from 'react-native';
 // Re-export all types for easier imports
 export * from './user';
 export * from './place';
@@ -17,6 +15,8 @@ export type RootStackParamList = {
   Settings: undefined;
   EditProfile: undefined;
   Friends: undefined;
+  CreatePost: undefined;
+  EditPost: { id: string };
 };
 
 export type AuthStackParamList = {
@@ -27,7 +27,7 @@ export type AuthStackParamList = {
 };
 
 export type MainTabParamList = {
-  Feed: undefined;
+  Feed: { id: string } | undefined;
   Swiping: undefined;
   Favorites: undefined;
   Chat: undefined;
@@ -50,18 +50,15 @@ export interface ApiResponse<T> {
   totalElements?: number;
 }
 
-export interface PaginatedResponse<T> {
-  items: T[];
+export interface GetListParams {
   page: number;
-  limit: number;
-  total: number;
-  hasNext: boolean;
-  hasPrev: boolean;
-}
+  size: number;
+};
 
 export interface IBaseItem {
   imageContent?: string;
-  textContent?: React.ReactNode;
-  itemStyle?: StyleProp<ViewStyle>;
-  imageContentStyle?: StyleProp<ViewStyle> & StyleProp<AvatarProps>;
+  rowTitle?: string;
+  rowSubtitle?: string;
+  contentInput?: React.ReactNode;
+  colorText?: string;
 }

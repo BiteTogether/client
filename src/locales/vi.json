@@ -53,5 +53,15 @@
   "remove_friend_confirmation": "Bạn có chắc chắn muốn xóa bạn bè này không?",
   "request_sent": "Đã gửi lời mời",
   "remove_friend_request": "Hủy lời mời",
-  "remove_friend_request_confirmation": "Bạn có chắc chắn muốn hủy lời mời kết bạn này không?"
+  "remove_friend_request_confirmation": "Bạn có chắc chắn muốn hủy lời mời kết bạn này không?",
+  "create_post": "Tạo bài viết",
+  "share_your_food_moment": "Chia sẻ khoảnh khắc ẩm thực của bạn!",
+  "edit_post": "Chỉnh sửa bài viết",
+  "delete_post": "Xóa bài viết",
+  "delete_post_confirmation": "Bạn có chắc chắn muốn xóa bài viết này không?",
+  "no_posts": "Bạn bè của bạn chưa đăng bài viết nào.",
+  "no_comments": "Chưa có bình luận nào. Hãy là người đầu tiên bình luận!",
+  "write_a_comment": "Viết bình luận...",
+  "reply": "trả lời",
+  "no_likes": "Chưa có lượt thích nào. Hãy là người đầu tiên thích!"
 }

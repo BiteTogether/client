@@ -11,6 +11,8 @@ import MainNavigator from './MainNavigator';
 import Settings from '../screens/Settings/SettingsScreen';
 import EditProfile from '../screens/Profile/EditProfileScreen';
 import Friends from '../screens/Profile/FriendsScreen';
+import CreatePost from '../screens/Feed/CreatePostScreen';
+import EditPost from '../screens/Feed/EditPostScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -42,6 +44,18 @@ const RootNavigator: React.FC = () => {
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Friends" component={Friends} />
+
+            <Stack.Screen
+              name="CreatePost"
+              component={CreatePost}
+              options={{ animation: 'slide_from_bottom' }}
+            />
+
+            <Stack.Screen
+              name="EditPost"
+              component={EditPost}
+              options={{ animation: 'slide_from_bottom' }}
+            />
           </>
         ) : (
           <Stack.Screen name="Auth" component={AuthNavigator} />

@@ -133,13 +133,13 @@ class ApiService {
       // Network error
       return {
         status: 0,
-        message: 'Network error. Please check your connection.',
+        message: String(error) || 'Network error. Please check your connection.',
       };
     } else {
       // Other error
       return {
         status: 0,
-        message: error.message || 'An unexpected error occurred',
+        message: String(error.message) || 'An unexpected error occurred',
       };
     }
   }
