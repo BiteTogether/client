@@ -36,8 +36,3 @@ export interface FriendRequest {
   };
 }
 export type FriendRequestsResponse = FriendRequest[];
-
-export interface GetListParams {
-  page: number;
-  size: number;
-};

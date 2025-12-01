@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components/native';
-import Avatar from 'components/common/Avatar';
 import LocationIcon from '@assets/icons/LocationIcon';
 import ThreeDotsIcon from '@assets/icons/ThreeDotsIcon';
 import HeartIcon from '@assets/icons/HeartIcon';
 import CommentIcon from '@assets/icons/CommentIcon';
 import ShareIcon from '@assets/icons/ShareIcon';
 import { Image as ImageRNE } from 'react-native-elements';
-import { ActivityIndicator } from 'react-native';
-import { COLORS, FONTS } from 'utils/constants/ui';
+import { ActivityIndicator, TouchableOpacity, Text } from 'react-native';
+import { Post } from 'types/feed';
+import BaseItem from 'components/common/items/BaseItem';
+import { likePost, unlikePost } from 'services/api/feedApi';
+import debounce from 'lodash.debounce';
 
 const PostContainer = styled.View`
   padding: 16px;
@@ -18,34 +20,6 @@ const PostHeader = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
-
-const UserInfo = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 8px;
-`;
-
-const UserDetails = styled.View`
-  flex-direction: column;
-  margin-left: 8px;
-  gap: 8px;
-`;
-
-const UserMeta = styled.View`
-  flex-direction: row;
-  gap: 8px;
-`;
-
-const UserName = styled.Text`
-  color: ${COLORS.TEXT.PRIMARY};
-  font-weight: ${FONTS.WEIGHTS.SEMIBOLD};
-`;
-
-const PostTime = styled.Text`
-  color: ${COLORS.TEXT.LIGHT};
-`;
-
-const PostDescription = styled.Text``;
 
 const PostLocation = styled.View`
   flex-direction: row;
@@ -59,45 +33,112 @@ const PostImageSection = styled.View`
 `;
 
 const ActionBar = styled.View`
-  margin-top: 16px;
+  margin-top: 8px;
   flex-direction: row;
   width: 100%;
   justify-content: flex-start;
   gap: 30px;
 `;
 
-const PostItem = () => {
+const ImageWrapper = styled.View`
+  margin-top: 8px;
+  margin-bottom: 8px;
+`;
+
+const ActionButtonWrapper = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+`;
+
+export type PostItemProps = {
+  item: Post;
+  setSelectorModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setCommentModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedPost: React.Dispatch<React.SetStateAction<Post | undefined>>;
+};
+
+const PostItem:React.FC<PostItemProps> = ({ item, setSelectorModalVisible, setCommentModalVisible, setSelectedPost }) => {
+  const [postItem, setPostItem] = useState<Post>(item);
+
+  const handleOpenSelectorModal = () => {
+    setSelectedPost(postItem);
+    setSelectorModalVisible(true);
+  };
+
+  const handleOpenCommentModal = () => {
+    setSelectedPost(postItem);
+    setCommentModalVisible(true);
+  };
+
+  // Debounce like and unlike post to prevent multiple rapid requests
+  const handleDebounceLikePost = useMemo(
+    () =>
+      debounce((postId, alreadyLiked) => {
+        if (alreadyLiked) {
+          likePost({ postId: String(postId) });
+        } else {
+          unlikePost({ postId: String(postId) });
+        }
+      }, 500, { leading: true, trailing: true }),
+    []
+  );
+  
+  const handleLikePost = () => {
+    setPostItem((prevPost) => {
+      if (!prevPost) return prevPost;
+      const newLiked = !prevPost.alreadyLiked;
+      const newLikeCount = prevPost.likeCount + (newLiked ? 1 : -1);
+
+      handleDebounceLikePost(prevPost.id, newLiked);
+
+      return {
+        ...prevPost,
+        alreadyLiked: newLiked,
+        likeCount: newLikeCount,
+      };
+    });
+  };
+
   return (
     <PostContainer>
       <PostHeader>
-        <UserInfo>
-          <Avatar />
-          <UserDetails>
-            <UserMeta>
-              <UserName>Phuong Thao</UserName>
-              <PostTime>2h</PostTime>
-            </UserMeta>
-            <PostDescription>I love it!</PostDescription>
-          </UserDetails>
-        </UserInfo>
+        <BaseItem
+          imageContent={postItem.user?.avatar}
+          rowTitle={postItem.user?.fullName}
+          rowSubtitle={postItem?.content}
+          colorText='black'
+        />
 
         <PostLocation>
           <LocationIcon />
-          <ThreeDotsIcon />
+          <TouchableOpacity onPress={handleOpenSelectorModal}>
+            <ThreeDotsIcon />
+          </TouchableOpacity>
         </PostLocation>
       </PostHeader>
 
       <PostImageSection>
-        <ImageRNE
-          source={{
-            uri: 'https://www.estellaplace.com.vn/Data/Sites/1/Product/141/pz_est_e-information-2.jpg',
-          }}
-          style={{ width: '100%', minHeight: 200, borderRadius: 15 }}
-          PlaceholderContent={<ActivityIndicator />}
-        />
+        {postItem.photoUrl && (
+          <ImageWrapper>
+            <ImageRNE
+              source={{ uri: postItem.photoUrl }}
+              style={{ width: '100%', minHeight: 200, borderRadius: 15 }}
+              PlaceholderContent={<ActivityIndicator />}
+            />
+          </ImageWrapper>
+        )}
         <ActionBar>
-          <HeartIcon size={22} />
-          <CommentIcon size={22} />
+          <ActionButtonWrapper onPress={handleLikePost}>
+            <HeartIcon size={22} color={postItem.alreadyLiked ? 'red' : undefined}/>
+            <Text>{postItem.likeCount}</Text>
+          </ActionButtonWrapper>
+
+          <ActionButtonWrapper onPress={handleOpenCommentModal}>
+            <CommentIcon size={22} />
+            <Text>{postItem.commentCount}</Text>
+          </ActionButtonWrapper>
+
           <ShareIcon size={22} />
         </ActionBar>
       </PostImageSection>

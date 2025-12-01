@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useFetchPosts } from '../Feed/hooks/useFetchPosts';
 import Container from 'components/layout/Container';
 import Header from 'components/common/Header';
 import Avatar from 'components/common/Avatar';
@@ -67,6 +68,7 @@ const Profile: React.FC = () => {
   const { id } = (route.params ?? {}) as { id?: string };
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { posts, loading: postsLoading, handleFetchPosts } = useFetchPosts();
   const [loading, setLoading] = useState(false);
   const ownProfile = useAppSelector((state) => state.user.profile);
   const viewingProfile = useAppSelector((state) => state.user.viewingProfile);
@@ -156,11 +158,16 @@ const Profile: React.FC = () => {
       };
       
       fetchProfile();
+      
+      if (id && id !== String(ownProfile?.id)) {
+        handleFetchPosts(Number(id));
+      } else {
+        handleFetchPosts(Number(ownProfile?.id));
+      }
     }, [id, ownProfile, dispatch])
   );
 
-  if (loading) return <FullScreenLoader />;
-
+  if (loading || postsLoading) return <FullScreenLoader />;
   return (
     <Container>
       <Header
@@ -186,7 +193,7 @@ const Profile: React.FC = () => {
           />
           )
         }
-        onLeftPress={() => navigation.navigate('Friends')}
+        onLeftPress={() => navigation.goBack()}
 
         leftTitle={currentProfile.username}
       />
@@ -227,7 +234,7 @@ const Profile: React.FC = () => {
       </UserContainer>
 
       <GridMedia>
-        <ProfileImageGrid />
+        <ProfileImageGrid data={posts} />
       </GridMedia>
     </Container>
   );

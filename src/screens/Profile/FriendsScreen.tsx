@@ -30,23 +30,8 @@ const SectionTitle = styled.Text`
 const Row = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   padding: 8px 0;
-  background-color: #fff;
-`;
-
-const RowText = styled.View`
-  flex: 1;
-`;
-
-const RowTitle = styled.Text`
-  font-size: ${FONTS.SIZES.LARGE}px;
-  font-weight: ${FONTS.WEIGHTS.SEMIBOLD};
-`;
-
-const RowSubtitle = styled.Text`
-  font-size: ${FONTS.SIZES.SMALL}px;
-  color: ${COLORS.TEXT.LIGHT};
-  margin-top: 4px;
 `;
 
 const ArrowIcon = styled(Icon).attrs({
@@ -198,12 +183,8 @@ const Friends: React.FC = () => {
           <Row key={friendSearch.id} onPress={() => navigation.navigate('Main', { screen: 'Profile', params: { id: String(friendSearch.id) } })}>
             <BaseItem
               imageContent={friendSearch.avatar}
-              textContent={
-                <RowText>
-                  <RowTitle>{friendSearch.fullName}</RowTitle>
-                  <RowSubtitle>{friendSearch.username}</RowSubtitle>
-                </RowText>
-              }
+              rowTitle={friendSearch.fullName}
+              rowSubtitle={friendSearch.username}
             />
             <ArrowIcon />
           </Row>
@@ -219,12 +200,8 @@ const Friends: React.FC = () => {
             <Row key={item.id} onPress={() => navigation.navigate('Main', { screen: 'Profile', params: { id: String(item.user.id) } })}>
               <BaseItem
                 imageContent={item.user.avatar}
-                textContent={
-                  <RowText>
-                    <RowTitle>{item.user.fullName}</RowTitle>
-                    <RowSubtitle>{t('pending_confirmation')}</RowSubtitle>
-                  </RowText>
-                }
+                rowTitle={item.user.fullName}
+                rowSubtitle={t('pending_confirmation')}
               />
               <AcceptButton onPress={() => handleAcceptFriendRequest(String(item.id))}>
                 <AcceptButtonText>{t('accept')}</AcceptButtonText>
@@ -246,12 +223,8 @@ const Friends: React.FC = () => {
             <Row key={item.id} onPress={() => navigation.navigate('Main', { screen: 'Profile', params: { id: String(item.id) } })}>
               <BaseItem
                 imageContent={item.avatar}
-                textContent={
-                  <RowText>
-                    <RowTitle>{item.fullName}</RowTitle>
-                    <RowSubtitle>{item.username}</RowSubtitle>
-                  </RowText>
-                }
+                rowTitle={item.fullName}
+                rowSubtitle={item.username}
               />
               <ArrowIcon />
             </Row>

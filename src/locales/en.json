@@ -53,5 +53,15 @@
   "remove_friend_confirmation": "Are you sure you want to remove this friend?",
   "request_sent": "Request sent",
   "remove_friend_request": "Cancel friend request",
-  "remove_friend_request_confirmation": "Are you sure you want to cancel this friend request?"
+  "remove_friend_request_confirmation": "Are you sure you want to cancel this friend request?",
+  "create_post": "Create post",
+  "share_your_food_moment": "Share your food moment!",
+  "edit_post": "Edit post",
+  "delete_post": "Delete post",
+  "delete_post_confirmation": "Are you sure you want to delete this post?",
+  "no_posts": "Your friends haven't uploaded any posts yet.",
+  "no_comments": "No comments yet. Be the first to comment!",
+  "write_a_comment": "Write a comment...",
+  "reply": "reply",
+  "no_likes": "No likes yet. Be the first to like!"
 }

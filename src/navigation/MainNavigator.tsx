@@ -37,7 +37,26 @@ const MainNavigator: React.FC = () => {
         },
       })}
     >
-  <Tab.Screen name="Feed" component={Feed} />
+  <Tab.Screen 
+    name="Feed" 
+    component={Feed} 
+    listeners={({ navigation }) => ({
+      tabPress: (e) => {
+        const state = navigation.getState();
+        const currentRoute = state.routes[state.index];
+        if (currentRoute.name === 'Feed') {
+          const params = currentRoute.params as { id?: string } | undefined;
+          if (params?.id && params.id !== 'null') {
+            e.preventDefault();
+            navigation.setParams({ id: null });
+          }
+        } else {
+          e.preventDefault();
+          navigation.navigate('Feed', { id: null });
+        }
+      },
+    })}
+  />
   <Tab.Screen name="Favorites" component={Favorites} />
   <Tab.Screen name="Swiping" component={Swiping} />
   <Tab.Screen name="Chat" component={ChatNavigator} />

@@ -24,6 +24,19 @@ export const API_ENDPOINTS = {
     REJECT_REQUEST: '/api/v1/friend-requests/{id}',
     REMOVE_FRIEND: '/api/v1/friends/{id}',
   },
+  FEED: {
+    CREATE_POST: '/api/v1/feeds',
+    POSTS: '/api/v1/feeds/new-feeds',
+    POSTS_BY_USER_ID: '/api/v1/feeds/user/{userId}',
+    GET_POST_BY_ID: '/api/v1/feeds/{id}',
+    UPDATE_POST: '/api/v1/feeds/{id}',
+    DELETE_POST: '/api/v1/feeds/{id}',
+    LIKE_POST: '/api/v1/feeds/likes',
+    UNLIKE_POST: '/api/v1/feeds/likes',
+    COMMENT: '/api/v1/feeds/comments',
+    GET_COMMENTS_BY_POST_ID: '/api/v1/feeds/comments/post/{postId}',
+    GET_LIKES_BY_POST_ID: '/api/v1/feeds/likes/post/{postId}',
+  },
   
   // PLACES: {
   //   SWIPE_STACK: '/api/places/swipe-stack',
@@ -40,12 +53,6 @@ export const API_ENDPOINTS = {
   //   LIST: '/api/chats',
   //   MESSAGES: '/api/chats',
   //   SEND_MESSAGE: '/api/chats',
-  // },
-  // FEED: {
-  //   POSTS: '/api/feed',
-  //   CREATE_POST: '/api/feed',
-  //   LIKE_POST: '/api/feed',
-  //   COMMENT: '/api/feed',
   // },
   // SWIPE_BATTLE: {
   //   CREATE: '/api/battles',
