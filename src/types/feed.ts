@@ -41,6 +41,7 @@ export interface LikePostRequest {
 export interface CommentPostRequest {
   postId: string;
   content: string;
+  parentCommentId?: string;
 };
 
 export interface Comment {
@@ -52,6 +53,7 @@ export interface Comment {
   postId: string;
   content: string;
   likeCount: number;
+  repliesCount: number;
   alreadyLiked: boolean;
   user: {
     id: number;
@@ -64,6 +66,10 @@ export interface Comment {
     createdAt: string;
     updatedAt: string;
   }
+  parentCommentId?: string;
+
+  newReplies?: Comments; // Add replies field to hold nested comments (just new temp reply)
+  deletedReplyIds?: string[]; // To track deleted replies
 };
 
 export type Comments = Comment[];

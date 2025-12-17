@@ -36,6 +36,9 @@ export const API_ENDPOINTS = {
     COMMENT: '/api/v1/feeds/comments',
     GET_COMMENTS_BY_POST_ID: '/api/v1/feeds/comments/post/{postId}',
     GET_LIKES_BY_POST_ID: '/api/v1/feeds/likes/post/{postId}',
+    DELETE_COMMENT: '/api/v1/feeds/comments/{commentId}',
+    EDIT_COMMENT: '/api/v1/feeds/comments/{commentId}',
+    GET_REPLIES_BY_COMMENT_ID: '/api/v1/feeds/comments/{commentId}/replies',
   },
   
   // PLACES: {

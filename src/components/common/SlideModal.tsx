@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 
 const ModalContent = styled(Animated.View)`
   background-color: #fff;
-  padding-top: 16px;
+  overflow: hidden;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   min-height: 180px;

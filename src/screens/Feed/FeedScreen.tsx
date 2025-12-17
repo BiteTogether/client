@@ -48,6 +48,7 @@ const Feed: React.FC = () => {
 
   const handleCloseSelectorModal = () => {
     setSelectorModalVisible(false);
+    setSelectedPost(undefined);
   };
 
   const handleCloseCommentModal = () => {
@@ -138,8 +139,9 @@ const Feed: React.FC = () => {
       <SelectorModal
         modalVisible={selectorModalVisible}
         onCloseModal={handleCloseSelectorModal}
-        onEditPost={handleEditPost}
-        onDeletePost={confirmDeletePost}
+        onEdit={handleEditPost}
+        onDelete={confirmDeletePost}
+        type='post'
       />
 
       <CommentModal

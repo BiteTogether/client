@@ -52,3 +52,18 @@ export const fetchLikesByPostId = (postId: string, params?: GetListParams) => {
   const url = API_ENDPOINTS.FEED.GET_LIKES_BY_POST_ID.replace('{postId}', String(postId));
   return apiService.get<LikesList>(url, { params });
 };
+
+export const deleteComment = (commentId: string) => {
+  const url = API_ENDPOINTS.FEED.DELETE_COMMENT.replace('{commentId}', String(commentId));
+  return apiService.delete(url);
+};
+
+export const editComment = (commentId: string, data: CommentPostRequest) => {
+  const url = API_ENDPOINTS.FEED.EDIT_COMMENT.replace('{commentId}', String(commentId));
+  return apiService.put(url, data);
+};
+
+export const fetchRepliesByCommentId = (commentId: string, params?: GetListParams) => {
+  const url = API_ENDPOINTS.FEED.GET_REPLIES_BY_COMMENT_ID.replace('{commentId}', String(commentId));
+  return apiService.get<Comments>(url, { params });
+};

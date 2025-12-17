@@ -10,11 +10,11 @@ import type { RootStackParamList } from '../../types';
 import { Icon } from '@rneui/themed';
 import { COLORS, FONTS } from '../../utils/constants';
 import { t } from 'i18next';
-// import Toast from 'react-native-toast-message';
 import { getFriendsList, getFriendRequests, acceptFriendRequest, rejectFriendRequest } from 'services/api/friendsApi'; 
 import { FriendsListResponse, SearchFriendResponse, FriendRequestsResponse } from '../../types/friends';
 import { Alert, TouchableOpacity } from 'react-native';
 import FullScreenLoader from 'components/common/FullScreenLoader';
+import { View } from 'react-native';
 
 const Section = styled.View`
   margin: 16px;
@@ -60,7 +60,6 @@ const AcceptButton = styled.TouchableOpacity`
   background-color: ${COLORS.ACCENT};
   border-radius: 8px;
   padding: 6px 12px;
-  margin-left: 8px;
 `;
 
 const AcceptButtonText = styled.Text`
@@ -203,12 +202,14 @@ const Friends: React.FC = () => {
                 rowTitle={item.user.fullName}
                 rowSubtitle={t('pending_confirmation')}
               />
-              <AcceptButton onPress={() => handleAcceptFriendRequest(String(item.id))}>
-                <AcceptButtonText>{t('accept')}</AcceptButtonText>
-              </AcceptButton>
-              <TouchableOpacity onPress={() => confirmRejectFriendRequest(String(item.id))}>
-                <RejectIcon />
-              </TouchableOpacity>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <AcceptButton onPress={() => handleAcceptFriendRequest(String(item.id))}>
+                  <AcceptButtonText>{t('accept')}</AcceptButtonText>
+                </AcceptButton>
+                <TouchableOpacity onPress={() => confirmRejectFriendRequest(String(item.id))}>
+                  <RejectIcon />
+                </TouchableOpacity>
+              </View>
             </Row>
           ))
         )}
