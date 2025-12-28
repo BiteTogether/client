@@ -6,6 +6,8 @@ import { Post, Posts } from 'types/feed';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from 'types/index';
+import { FONTS } from 'utils/constants';
+import { useTranslation } from 'react-i18next';
 
 const GAP = 2;
 const NUM_COLUMNS = 3;
@@ -14,6 +16,13 @@ const IMAGE_SIZE = (Dimensions.get('window').width - GAP * (NUM_COLUMNS - 1)) / 
 const ImageWrapper = styled.TouchableOpacity`
   width: ${IMAGE_SIZE}px;
   height: ${IMAGE_SIZE}px;
+`;
+
+const EmptyText = styled.Text`
+  color: #888;
+  font-size: ${FONTS.SIZES.MEDIUM}px;
+  margin-top: 50%;
+  text-align: center;
 `;
 
 export type ProfileImageGridProps = {
@@ -50,15 +59,22 @@ const renderItem = (navigation: NativeStackNavigationProp<RootStackParamList>) =
 
 const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ data }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { t } = useTranslation();
   return (
-    <FlatList
-      data={data}
-      renderItem={renderItem(navigation)}
-      keyExtractor={item => item.id}
-      numColumns={NUM_COLUMNS}
-      scrollEnabled={false}
-      columnWrapperStyle={{}}
-    />
+    <>
+      {data.length === 0 ? (
+        <EmptyText>{t('profile_no_posts')}</EmptyText>
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={renderItem(navigation)}
+          keyExtractor={item => item.id}
+          numColumns={NUM_COLUMNS}
+          scrollEnabled={false}
+          columnWrapperStyle={{}}
+        />
+      )}
+    </>
   );
 };
 

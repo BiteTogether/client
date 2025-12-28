@@ -63,5 +63,13 @@
   "no_comments": "Chưa có bình luận nào. Hãy là người đầu tiên bình luận!",
   "write_a_comment": "Viết bình luận...",
   "reply": "trả lời",
-  "no_likes": "Chưa có lượt thích nào. Hãy là người đầu tiên thích!"
+  "no_likes": "Chưa có lượt thích nào. Hãy là người đầu tiên thích!",
+  "profile_no_posts": "Chưa có bài viết nào.",
+  "edit_comment": "Chỉnh sửa bình luận",
+  "delete_comment": "Xóa bình luận",
+  "delete_comment_confirmation": "Bạn có chắc chắn muốn xóa bình luận này không?",
+  "reply_comment": "Trả lời bình luận",
+  "view": "Xem",
+  "hide": "Ẩn",
+  "replies": "trả lời"
 }

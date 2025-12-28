@@ -20,15 +20,17 @@ const OptionText = styled.Text`
 export type SelectorModalProps = {
   modalVisible: boolean;
   onCloseModal: () => void;
-  onEditPost: () => void;
-  onDeletePost: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  type: string;
 };
 
 const SelectorModal: React.FC<SelectorModalProps> = ({
   modalVisible,
   onCloseModal,
-  onEditPost,
-  onDeletePost,
+  onEdit,
+  onDelete,
+  type,
 }) => {
   const { t } = useTranslation();
 
@@ -38,16 +40,16 @@ const SelectorModal: React.FC<SelectorModalProps> = ({
       onCloseModal={onCloseModal}
     >
       <OptionButton
-        onPress={onEditPost}
+        onPress={onEdit}
         style={{ borderBottomWidth: 1, borderBottomColor: COLORS.BORDER }}
       >
         <Icon name="edit" type="feather" size={24} color="black" />
-        <OptionText>{t('edit_post')}</OptionText>
+        <OptionText>{t(`edit_${type}`)}</OptionText>
       </OptionButton>
 
-      <OptionButton onPress={onDeletePost}>
+      <OptionButton onPress={onDelete}>
         <Icon name="trash-2" type="feather" size={24} color="red" />
-        <OptionText style={{ color: 'red' }}>{t('delete_post')}</OptionText>
+        <OptionText style={{ color: 'red' }}>{t(`delete_${type}`)}</OptionText>
       </OptionButton>
 
       <OptionButton onPress={onCloseModal}>

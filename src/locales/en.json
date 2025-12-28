@@ -63,5 +63,13 @@
   "no_comments": "No comments yet. Be the first to comment!",
   "write_a_comment": "Write a comment...",
   "reply": "reply",
-  "no_likes": "No likes yet. Be the first to like!"
+  "no_likes": "No likes yet. Be the first to like!",
+  "profile_no_posts": "No posts yet.",
+  "edit_comment": "Edit comment",
+  "delete_comment": "Delete comment",
+  "delete_comment_confirmation": "Are you sure you want to delete this comment?",
+  "reply_comment": "Reply to comment",
+  "view": "View",
+  "hide": "Hide",
+  "replies": "replies"
 }
