@@ -14,6 +14,8 @@ import Friends from '../screens/Profile/FriendsScreen';
 import CreatePost from '../screens/Feed/CreatePostScreen';
 import EditPost from '../screens/Feed/EditPostScreen';
 import ChatDetail from '../screens/Chat/ChatDetailScreen';
+import { getApp } from '@react-native-firebase/app';
+import { getAnalytics, logEvent } from '@react-native-firebase/analytics';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -36,8 +38,35 @@ const RootNavigator: React.FC = () => {
     }
   }, [dispatch, isAuthenticated, token]);
 
+  // function to get active route name from navigation state
+  const getActiveRouteName = (state: any): string | undefined => {
+    if (!state) return undefined;
+    const route = state.routes[state.index];
+    if (route.state) {
+      return getActiveRouteName(route.state);
+    }
+    return route.name;
+  };
+
+  // Modular Firebase Analytics tracking
+  const onNavigationStateChange = async (state: any) => {
+    const screenName = getActiveRouteName(state);
+    if (screenName) {
+      try {
+        const app = getApp();
+        const analyticsInstance = getAnalytics(app);
+        await logEvent(analyticsInstance, 'screen_view' as string, {
+          screen_name: screenName,
+          screen_class: screenName,
+        });
+      } catch (error) {
+        console.error('Analytics error:', error);
+      }
+    }
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer onStateChange={onNavigationStateChange}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthenticated ? (
           <>

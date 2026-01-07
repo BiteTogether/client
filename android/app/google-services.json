@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8580349292",
+    "project_id": "bitetogether-fa2ea",
+    "storage_bucket": "bitetogether-fa2ea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8580349292:android:5c66e3e9d24e823297c749",
+        "android_client_info": {
+          "package_name": "com.bitetogether.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU2mpYEPYmjNCtI8yFK4DlRoe6bI6rJbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
