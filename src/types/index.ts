@@ -17,13 +17,13 @@ export type RootStackParamList = {
   Friends: undefined;
   CreatePost: undefined;
   EditPost: { id: string };
+  ChatDetail: { id: string };
 };
 
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
   ForgotPassword: undefined;
-  ChatDetail: { chatId: string };
 };
 
 export type MainTabParamList = {
@@ -32,12 +32,6 @@ export type MainTabParamList = {
   Favorites: undefined;
   Chat: undefined;
   Profile: { id: string } | undefined;
-};
-
-export type ChatStackParamList = {
-  ChatList: undefined;
-  ChatDetail: { chatId: string };
-  SwipeBattle: { battleId: string };
 };
 
 // API Response types

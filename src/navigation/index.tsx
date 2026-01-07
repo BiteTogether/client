@@ -13,6 +13,7 @@ import EditProfile from '../screens/Profile/EditProfileScreen';
 import Friends from '../screens/Profile/FriendsScreen';
 import CreatePost from '../screens/Feed/CreatePostScreen';
 import EditPost from '../screens/Feed/EditPostScreen';
+import ChatDetail from '../screens/Chat/ChatDetailScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -44,6 +45,7 @@ const RootNavigator: React.FC = () => {
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Friends" component={Friends} />
+            <Stack.Screen name="ChatDetail" component={ChatDetail} />
 
             <Stack.Screen
               name="CreatePost"

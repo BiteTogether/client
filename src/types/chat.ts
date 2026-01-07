@@ -1,72 +1,84 @@
-import { Place } from './place';
-
-// Chat and messaging types
-export interface Chat {
-  id: string;
-  type: 'direct' | 'group';
-  name?: string; // For group chats
-  participants: string[]; // User IDs
-  lastMessage?: Message;
-  unreadCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface Message {
-  id: string;
-  chatId: string;
-  senderId: string;
-  content: string;
-  type: 'text' | 'image' | 'place' | 'swipe-battle';
-  metadata?: {
-    imageUrl?: string;
-    placeId?: string;
-    swipeBattleId?: string;
-  };
-  timestamp: string;
-  readBy: string[]; // User IDs who have read this message
-}
-
-// Feed related types
-export interface FeedPost {
-  id: string;
-  userId: string;
-  content: string;
-  images?: string[];
-  place?: Place;
-  likes: string[]; // User IDs who liked this post
-  comments: Comment[];
-  visibility: 'public' | 'friends' | 'private';
   createdAt: string;
   updatedAt: string;
-}
-
-export interface Comment {
+  createdBy: string;
+  updatedBy: string;
   id: string;
-  userId: string;
+  roomId: string;
   content: string;
-  timestamp: string;
-}
-
-// Notification types
-export interface Notification {
-  id: string;
-  userId: string;
-  type: 'match' | 'message' | 'feed_like' | 'feed_comment' | 'swipe_battle';
-  title: string;
-  message: string;
-  data?: any; // Additional data based on notification type
-  read: boolean;
-  createdAt: string;
-}
-
-export interface MessageItemProps {
+  type: "TEXT";
+  sender: {
+    id: number;
+    username: string;
     fullName: string;
-    latestMessage: string;
-    receivedTime: string;
-}
+    avatar?: string;
+  },
+  replyTo?: string;
+  deleted: boolean;
+};
 
-export interface MessageCurrentRecipientProps {
-  username: string;
-  fullName: string;
-}
+export type Messages = Message[];
+
+export interface Room {
+  createdAt: string;
+  updatedAt: string;
+  createdBy: string;
+  updatedBy: string;
+  id: string;
+  name: string;
+  avatar?: string;
+  members: {
+    id: number;
+    username: string;
+    email: string;
+    fullName: string;
+    phoneNumber: string;
+    avatar?: string;
+    role: string;
+  }[];
+  userIds: number[];
+  roomType: "GROUP" | "DIRECT";
+  adminIds: number[];
+  lastMessageId: string;
+  lastMessageAt: string;
+};
+
+export type Rooms = Room[];
+
+export interface SendMessageRequest {
+  roomId: string;
+  content: string;
+  type: "TEXT";
+  replyToMessageId?: string;
+};
+
+export interface GetDirectChatRoomRequest {
+  userId1: number;
+  userId2: number;
+};
+
+
+
+// export interface Chat {
+//   id: string;
+//   type: 'direct' | 'group';
+//   name?: string; // For group chats
+//   participants: string[]; // User IDs
+//   lastMessage?: Message;
+//   unreadCount: number;
+//   createdAt: string;
+//   updatedAt: string;
+// }
+
+
+
+// export interface MessageItemProps {
+//     fullName: string;
+//     latestMessage: string;
+//     receivedTime: string;
+// }
+
+// export interface MessageCurrentRecipientProps {
+//   username: string;
+//   fullName: string;
+// }

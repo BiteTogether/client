@@ -71,5 +71,6 @@
   "reply_comment": "Reply to comment",
   "view": "View",
   "hide": "Hide",
-  "replies": "replies"
+  "replies": "replies",
+  "no_messages": "No messages yet, start a conversation now!"
 }

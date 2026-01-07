@@ -7,4 +7,3 @@ export * from './featureFlags';
 export * from './pagination';
 export * from './map';
 export * from './swipe';
-export * from './messageItems';
