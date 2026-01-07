@@ -40,6 +40,13 @@ export const API_ENDPOINTS = {
     EDIT_COMMENT: '/api/v1/feeds/comments/{commentId}',
     GET_REPLIES_BY_COMMENT_ID: '/api/v1/feeds/comments/{commentId}/replies',
   },
+
+  CHAT: {
+    ROOMS_LIST: '/api/v1/rooms',
+    SEND_MESSAGE: '/api/v1/messages',
+    DIRECT_CHAT_ROOM: '/api/v1/rooms/direct',
+    MESSAGES: '/api/v1/messages/room/{roomId}',
+  },
   
   // PLACES: {
   //   SWIPE_STACK: '/api/places/swipe-stack',
@@ -52,11 +59,7 @@ export const API_ENDPOINTS = {
   //   LIST: '/api/matches',
   //   DETAILS: '/api/matches',
   // },
-  // CHAT: {
-  //   LIST: '/api/chats',
-  //   MESSAGES: '/api/chats',
-  //   SEND_MESSAGE: '/api/chats',
-  // },
+  
   // SWIPE_BATTLE: {
   //   CREATE: '/api/battles',
   //   VOTE: '/api/battles',
